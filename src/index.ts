@@ -2,7 +2,7 @@
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
 import { VERSION } from './version.js';
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
-import { tool_handler } from './tool-handler.js';
+import { tool_handler, list_of_tools } from './tool-handler.js';
 import {
   CallToolRequestSchema,
   ListToolsRequestSchema,
@@ -10,30 +10,6 @@ import {
   GetPromptRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { AsanaClientWrapper } from './asana-client-wrapper.js'
-
-import { listWorkspacesTool } from './tools/workspace-tools.js';
-import {
-  searchProjectsTool,
-  getProjectTool,
-  getProjectTaskCountsTool,
-  getProjectSectionsTool
-} from './tools/project-tools.js';
-import {
-  searchTasksTool,
-  getTaskTool,
-  createTaskTool,
-  updateTaskTool,
-  createSubtaskTool,
-  getMultipleTasksByGidTool
-} from './tools/task-tools.js';
-import {
-  addTaskDependenciesTool,
-  addTaskDependentsTool
-} from './tools/task-relationship-tools.js';
-import {
-  getStoriesForTaskTool,
-  createTaskStoryTool
-} from './tools/story-tools.js';
 
 async function main() {
   const asanaToken = process.env.ASANA_ACCESS_TOKEN;
@@ -67,23 +43,7 @@ async function main() {
   server.setRequestHandler(ListToolsRequestSchema, async () => {
     console.error("Received ListToolsRequest");
     return {
-      tools: [
-        listWorkspacesTool,
-        searchProjectsTool,
-        searchTasksTool,
-        getTaskTool,
-        createTaskTool,
-        getStoriesForTaskTool,
-        updateTaskTool,
-        getProjectTool,
-        getProjectTaskCountsTool,
-        getProjectSectionsTool,
-        createTaskStoryTool,
-        addTaskDependenciesTool,
-        addTaskDependentsTool,
-        createSubtaskTool,
-        getMultipleTasksByGidTool,
-      ],
+      tools: list_of_tools,
     };
   });
 

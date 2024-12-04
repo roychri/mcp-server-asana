@@ -1,6 +1,48 @@
 import { CallToolRequest } from "@modelcontextprotocol/sdk/types.js";
 import { AsanaClientWrapper } from './asana-client-wrapper.js';
 
+import { listWorkspacesTool } from './tools/workspace-tools.js';
+import {
+  searchProjectsTool,
+  getProjectTool,
+  getProjectTaskCountsTool,
+  getProjectSectionsTool
+} from './tools/project-tools.js';
+import {
+  searchTasksTool,
+  getTaskTool,
+  createTaskTool,
+  updateTaskTool,
+  createSubtaskTool,
+  getMultipleTasksByGidTool
+} from './tools/task-tools.js';
+import {
+  addTaskDependenciesTool,
+  addTaskDependentsTool
+} from './tools/task-relationship-tools.js';
+import {
+  getStoriesForTaskTool,
+  createTaskStoryTool
+} from './tools/story-tools.js';
+
+export const list_of_tools = [
+  listWorkspacesTool,
+  searchProjectsTool,
+  searchTasksTool,
+  getTaskTool,
+  createTaskTool,
+  getStoriesForTaskTool,
+  updateTaskTool,
+  getProjectTool,
+  getProjectTaskCountsTool,
+  getProjectSectionsTool,
+  createTaskStoryTool,
+  addTaskDependenciesTool,
+  addTaskDependentsTool,
+  createSubtaskTool,
+  getMultipleTasksByGidTool,
+];
+
 export function tool_handler(asanaClient: AsanaClientWrapper) {
     return async (request: CallToolRequest) => {
       console.error("Received CallToolRequest:", request);
