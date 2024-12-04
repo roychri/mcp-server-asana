@@ -57,7 +57,7 @@ const searchProjectsTool: Tool = {
 
 const searchTasksTool: Tool = {
   name: "asana_search_tasks",
-  description: "Search for tasks in a workspace",
+  description: "Search tasks in a workspace with advanced filtering options",
   inputSchema: {
     type: "object",
     properties: {
@@ -69,9 +69,210 @@ const searchTasksTool: Tool = {
         type: "string",
         description: "Text to search for in task names and descriptions"
       },
+      resource_subtype: {
+        type: "string",
+        description: "Filter by task subtype (e.g. milestone)"
+      },
+      "portfolios.any": {
+        type: "string",
+        description: "Comma-separated list of portfolio IDs"
+      },
+      "assignee.any": {
+        type: "string",
+        description: "Comma-separated list of user IDs"
+      },
+      "assignee.not": {
+        type: "string",
+        description: "Comma-separated list of user IDs to exclude"
+      },
+      "projects.any": {
+        type: "string",
+        description: "Comma-separated list of project IDs"
+      },
+      "projects.not": {
+        type: "string",
+        description: "Comma-separated list of project IDs to exclude"
+      },
+      "projects.all": {
+        type: "string",
+        description: "Comma-separated list of project IDs that must all match"
+      },
+      "sections.any": {
+        type: "string",
+        description: "Comma-separated list of section IDs"
+      },
+      "sections.not": {
+        type: "string",
+        description: "Comma-separated list of section IDs to exclude"
+      },
+      "sections.all": {
+        type: "string",
+        description: "Comma-separated list of section IDs that must all match"
+      },
+      "tags.any": {
+        type: "string",
+        description: "Comma-separated list of tag IDs"
+      },
+      "tags.not": {
+        type: "string",
+        description: "Comma-separated list of tag IDs to exclude"
+      },
+      "tags.all": {
+        type: "string",
+        description: "Comma-separated list of tag IDs that must all match"
+      },
+      "teams.any": {
+        type: "string",
+        description: "Comma-separated list of team IDs"
+      },
+      "followers.not": {
+        type: "string",
+        description: "Comma-separated list of user IDs to exclude"
+      },
+      "created_by.any": {
+        type: "string",
+        description: "Comma-separated list of user IDs"
+      },
+      "created_by.not": {
+        type: "string",
+        description: "Comma-separated list of user IDs to exclude"
+      },
+      "assigned_by.any": {
+        type: "string",
+        description: "Comma-separated list of user IDs"
+      },
+      "assigned_by.not": {
+        type: "string",
+        description: "Comma-separated list of user IDs to exclude"
+      },
+      "liked_by.not": {
+        type: "string",
+        description: "Comma-separated list of user IDs to exclude"
+      },
+      "commented_on_by.not": {
+        type: "string",
+        description: "Comma-separated list of user IDs to exclude"
+      },
+      "due_on": {
+        type: "string",
+        description: "ISO 8601 date string or null"
+      },
+      "due_on.before": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "due_on.after": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "due_at.before": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
+      "due_at.after": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
+      "start_on": {
+        type: "string",
+        description: "ISO 8601 date string or null"
+      },
+      "start_on.before": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "start_on.after": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "created_on": {
+        type: "string",
+        description: "ISO 8601 date string or null"
+      },
+      "created_on.before": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "created_on.after": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "created_at.before": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
+      "created_at.after": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
+      "completed_on": {
+        type: "string",
+        description: "ISO 8601 date string or null"
+      },
+      "completed_on.before": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "completed_on.after": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "completed_at.before": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
+      "completed_at.after": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
+      "modified_on": {
+        type: "string",
+        description: "ISO 8601 date string or null"
+      },
+      "modified_on.before": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "modified_on.after": {
+        type: "string",
+        description: "ISO 8601 date string"
+      },
+      "modified_at.before": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
+      "modified_at.after": {
+        type: "string",
+        description: "ISO 8601 datetime string"
+      },
       completed: {
         type: "boolean",
-        description: "Filter for completed tasks",
+        description: "Filter for completed tasks"
+      },
+      is_subtask: {
+        type: "boolean",
+        description: "Filter for subtasks"
+      },
+      has_attachment: {
+        type: "boolean",
+        description: "Filter for tasks with attachments"
+      },
+      is_blocked: {
+        type: "boolean",
+        description: "Filter for tasks with incomplete dependencies"
+      },
+      is_blocking: {
+        type: "boolean",
+        description: "Filter for incomplete tasks with dependents"
+      },
+      sort_by: {
+        type: "string",
+        description: "Sort by: due_date, created_at, completed_at, likes, modified_at",
+        default: "modified_at"
+      },
+      sort_ascending: {
+        type: "boolean",
+        description: "Sort in ascending order",
         default: false
       },
       opt_fields: {
@@ -79,7 +280,7 @@ const searchTasksTool: Tool = {
         description: "Comma-separated list of optional fields to include"
       }
     },
-    required: ["workspace", "text"]
+    required: ["workspace"]
   }
 };
 
@@ -377,12 +578,40 @@ class AsanaClientWrapper {
     return response.data.filter((project: any) => pattern.test(project.name));
   }
 
-  async searchTasks(workspace: string, text: string, completed: boolean = false, opts: any = {}) {
-    const response = await this.tasks.searchTasksForWorkspace(workspace, {
+  async searchTasks(workspace: string, searchOpts: any = {}) {
+    // Extract known parameters
+    const {
       text,
+      resource_subtype,
       completed,
-      ...opts
-    });
+      is_subtask,
+      has_attachment,
+      is_blocked,
+      is_blocking,
+      sort_by,
+      sort_ascending,
+      opt_fields,
+      ...otherOpts
+    } = searchOpts;
+
+    // Build search parameters
+    const searchParams: any = {
+      ...otherOpts // Include any additional filter parameters
+    };
+
+    // Add optional parameters if provided
+    if (text) searchParams.text = text;
+    if (resource_subtype) searchParams.resource_subtype = resource_subtype;
+    if (completed !== undefined) searchParams.completed = completed;
+    if (is_subtask !== undefined) searchParams.is_subtask = is_subtask;
+    if (has_attachment !== undefined) searchParams.has_attachment = has_attachment;
+    if (is_blocked !== undefined) searchParams.is_blocked = is_blocked;
+    if (is_blocking !== undefined) searchParams.is_blocking = is_blocking;
+    if (sort_by) searchParams.sort_by = sort_by;
+    if (sort_ascending !== undefined) searchParams.sort_ascending = sort_ascending;
+    if (opt_fields) searchParams.opt_fields = opt_fields;
+
+    const response = await this.tasks.searchTasksForWorkspace(workspace, searchParams);
     return response.data;
   }
 
@@ -535,13 +764,8 @@ async function main() {
           }
 
           case "asana_search_tasks": {
-            const { workspace, text, completed = false, ...opts } = args;
-            const response = await asanaClient.searchTasks(
-              workspace,
-              text,
-              completed,
-              opts
-            );
+            const { workspace, ...searchOpts } = args;
+            const response = await asanaClient.searchTasks(workspace, searchOpts);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
@@ -745,7 +969,7 @@ async function main() {
   ${task.notes || "No notes"}
 
   Custom Fields:
-  ${task.custom_fields?.map((field: {name: string; display_value: string}) => 
+  ${task.custom_fields?.map((field: {name: string; display_value: string}) =>
     `${field.name}: ${field.display_value}`).join('\n') || "No custom fields"}
 
   Comments/Updates (from newest to oldest):
