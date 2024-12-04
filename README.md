@@ -14,54 +14,123 @@ More details on MCP here:
 ## Tools
 
 1. `asana_list_workspaces`
-
-  - List all available workspaces in Asana
-  - Optional input:
-    - opt_fields (string): Comma-separated list of optional fields to include
-  - Returns: List of workspaces
-
+    * List all available workspaces in Asana
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of workspaces
 2. `asana_search_projects`
-
-  - Search for projects in Asana using name pattern matching
-  - Required input:
-    - workspace (string): The workspace to search in
-    - name_pattern (string): Regular expression pattern to match project names
-  - Optional input:
-    - archived (boolean): Only return archived projects (default: false)
-    - opt_fields (string): Comma-separated list of optional fields to include
-  - Returns: List of matching projects
-
+    * Search for projects in Asana using name pattern matching
+    * Required input:
+        * workspace (string): The workspace to search in
+        * name_pattern (string): Regular expression pattern to match project names
+    * Optional input:
+        * archived (boolean): Only return archived projects (default: false)
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of matching projects
 3. `asana_search_tasks`
-
-  - Search for tasks in a workspace
-  - Required input:
-    - workspace (string): The workspace to search in
-    - text (string): Text to search for in task names and descriptions
-  - Optional input:
-    - completed (boolean): Filter for completed tasks (default: false)
-    - opt_fields (string): Comma-separated list of optional fields to include
-  - Returns: List of matching tasks
-
+    * Search tasks in a workspace with advanced filtering options
+    * Required input:
+        * workspace (string): The workspace to search in
+    * Optional input:
+        * text (string): Text to search for in task names and descriptions
+        * resource_subtype (string): Filter by task subtype (e.g. milestone)
+        * completed (boolean): Filter for completed tasks
+        * is_subtask (boolean): Filter for subtasks
+        * has_attachment (boolean): Filter for tasks with attachments
+        * is_blocked (boolean): Filter for tasks with incomplete dependencies
+        * is_blocking (boolean): Filter for incomplete tasks with dependents
+        * assignee, projects, sections, tags, teams, and many other advanced filters
+        * sort_by (string): Sort by due_date, created_at, completed_at, likes, modified_at (default: modified_at)
+        * sort_ascending (boolean): Sort in ascending order (default: false)
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of matching tasks
 4. `asana_get_task`
-
-  - Get detailed information about a specific task
-  - Required input:
-    - task_id (string): The task ID to retrieve
-  - Optional input:
-    - opt_fields (string): Comma-separated list of optional fields to include
-  - Returns: Detailed task information
-
+    * Get detailed information about a specific task
+    * Required input:
+        * task_id (string): The task ID to retrieve
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Detailed task information
 5. `asana_create_task`
-
-  - Create a new task in a project
-  - Required input:
-    - project_id (string): The project to create the task in
-    - name (string): Name of the task
-  - Optional input:
-    - notes (string): Description of the task
-    - due_on (string): Due date in YYYY-MM-DD format
-    - assignee (string): Assignee (can be 'me' or a user ID)
-  - Returns: Created task information
+    * Create a new task in a project
+    * Required input:
+        * project_id (string): The project to create the task in
+        * name (string): Name of the task
+    * Optional input:
+        * notes (string): Description of the task
+        * due_on (string): Due date in YYYY-MM-DD format
+        * assignee (string): Assignee (can be 'me' or a user ID)
+    * Returns: Created task information
+6. `asana_get_task_stories`
+    * Get comments and stories for a specific task
+    * Required input:
+        * task_id (string): The task ID to get stories for
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of task stories/comments
+7. `asana_update_task`
+    * Update an existing task's details
+    * Required input:
+        * task_id (string): The task ID to update
+    * Optional input:
+        * name (string): New name for the task
+        * notes (string): New description for the task
+        * due_on (string): New due date in YYYY-MM-DD format
+        * assignee (string): New assignee (can be 'me' or a user ID)
+        * completed (boolean): Mark task as completed or not
+    * Returns: Updated task information
+8. `asana_get_project`
+    * Get detailed information about a specific project
+    * Required input:
+        * project_id (string): The project ID to retrieve
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Detailed project information
+9. `asana_get_project_task_counts`
+    * Get the number of tasks in a project
+    * Required input:
+        * project_id (string): The project ID to get task counts for
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Task count information
+10. `asana_get_project_sections`
+    * Get sections in a project
+    * Required input:
+        * project_id (string): The project ID to get sections for
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of project sections
+11. `asana_create_task_story`
+    * Create a comment or story on a task
+    * Required input:
+        * task_id (string): The task ID to add the story to
+        * text (string): The text content of the story/comment
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Created story information
+12. `asana_add_task_dependencies`
+    * Set dependencies for a task
+    * Required input:
+        * task_id (string): The task ID to add dependencies to
+        * dependencies (array of strings): Array of task IDs that this task depends on
+    * Returns: Updated task dependencies
+13. `asana_add_task_dependents`
+    * Set dependents for a task (tasks that depend on this task)
+    * Required input:
+        * task_id (string): The task ID to add dependents to
+        * dependents (array of strings): Array of task IDs that depend on this task
+    * Returns: Updated task dependents
+14. `asana_create_subtask`
+    * Create a new subtask for an existing task
+    * Required input:
+        * parent_task_id (string): The parent task ID to create the subtask under
+        * name (string): Name of the subtask
+    * Optional input:
+        * notes (string): Description of the subtask
+        * due_on (string): Due date in YYYY-MM-DD format
+        * assignee (string): Assignee (can be 'me' or a user ID)
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Created subtask information
 
 ## Prompts
 
