@@ -2,3 +2,5 @@ node_modules
 dist
 .aider*
 .env
+!.aider.conf.yml
+!.aiderignore

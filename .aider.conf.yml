@@ -1,0 +1,3 @@
+read: ["CONVENTIONS.md", "Asana-v3.md"]
+cache-prompts: true
+cache-keepalive-pings: 1
