@@ -99,6 +99,219 @@ const getTaskTool: Tool = {
   }
 };
 
+const addTaskDependentsTool: Tool = {
+  name: "asana_add_task_dependents",
+  description: "Set dependents for a task (tasks that depend on this task)",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to add dependents to"
+      },
+      dependents: {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        description: "Array of task IDs that depend on this task"
+      }
+    },
+    required: ["task_id", "dependents"]
+  }
+};
+
+const addTaskDependenciesTool: Tool = {
+  name: "asana_add_task_dependencies",
+  description: "Set dependencies for a task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to add dependencies to"
+      },
+      dependencies: {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        description: "Array of task IDs that this task depends on"
+      }
+    },
+    required: ["task_id", "dependencies"]
+  }
+};
+
+const createTaskStoryTool: Tool = {
+  name: "asana_create_task_story",
+  description: "Create a comment or story on a task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to add the story to"
+      },
+      text: {
+        type: "string",
+        description: "The text content of the story/comment"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["task_id", "text"]
+  }
+};
+
+const getProjectSectionsTool: Tool = {
+  name: "asana_get_project_sections",
+  description: "Get sections in a project",
+  inputSchema: {
+    type: "object",
+    properties: {
+      project_id: {
+        type: "string",
+        description: "The project ID to get sections for"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["project_id"]
+  }
+};
+
+const getProjectTaskCountsTool: Tool = {
+  name: "asana_get_project_task_counts",
+  description: "Get the number of tasks in a project",
+  inputSchema: {
+    type: "object",
+    properties: {
+      project_id: {
+        type: "string",
+        description: "The project ID to get task counts for"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["project_id"]
+  }
+};
+
+const getProjectTool: Tool = {
+  name: "asana_get_project",
+  description: "Get detailed information about a specific project",
+  inputSchema: {
+    type: "object",
+    properties: {
+      project_id: {
+        type: "string",
+        description: "The project ID to retrieve"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["project_id"]
+  }
+};
+
+const updateTaskTool: Tool = {
+  name: "asana_update_task",
+  description: "Update an existing task's details",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to update"
+      },
+      name: {
+        type: "string",
+        description: "New name for the task"
+      },
+      notes: {
+        type: "string",
+        description: "New description for the task"
+      },
+      due_on: {
+        type: "string",
+        description: "New due date in YYYY-MM-DD format"
+      },
+      assignee: {
+        type: "string",
+        description: "New assignee (can be 'me' or a user ID)"
+      },
+      completed: {
+        type: "boolean",
+        description: "Mark task as completed or not"
+      }
+    },
+    required: ["task_id"]
+  }
+};
+
+const getStoriesForTaskTool: Tool = {
+  name: "asana_get_task_stories",
+  description: "Get comments and stories for a specific task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to get stories for"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["task_id"]
+  }
+};
+
+const createSubtaskTool: Tool = {
+  name: "asana_create_subtask",
+  description: "Create a new subtask for an existing task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      parent_task_id: {
+        type: "string",
+        description: "The parent task ID to create the subtask under"
+      },
+      name: {
+        type: "string",
+        description: "Name of the subtask"
+      },
+      notes: {
+        type: "string",
+        description: "Description of the subtask"
+      },
+      due_on: {
+        type: "string",
+        description: "Due date in YYYY-MM-DD format"
+      },
+      assignee: {
+        type: "string",
+        description: "Assignee (can be 'me' or a user ID)"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["parent_task_id", "name"]
+  }
+};
+
 const createTaskTool: Tool = {
   name: "asana_create_task",
   description: "Create a new task in a project",
@@ -134,6 +347,7 @@ class AsanaClientWrapper {
   private workspaces: any;
   private projects: any;
   private tasks: any;
+  private stories: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -143,6 +357,7 @@ class AsanaClientWrapper {
     this.workspaces = new Asana.WorkspacesApi();
     this.projects = new Asana.ProjectsApi();
     this.tasks = new Asana.TasksApi();
+    this.stories = new Asana.StoriesApi();
   }
 
   async listWorkspaces(opts: any = {}) {
@@ -181,6 +396,81 @@ class AsanaClientWrapper {
       }
     };
     const response = await this.tasks.createTask(taskData);
+    return response.data;
+  }
+
+  async getStoriesForTask(taskId: string, opts: any = {}) {
+    const response = await this.stories.getStoriesForTask(taskId, opts);
+    return response.data;
+  }
+
+  async updateTask(taskId: string, data: any) {
+    const body = { data };
+    const opts = {};
+    const response = await this.tasks.updateTask(body, taskId, opts);
+    return response.data;
+  }
+
+  async getProject(projectId: string, opts: any = {}) {
+    // Only include opts if opt_fields was actually provided
+    const options = opts.opt_fields ? opts : {};
+    const response = await this.projects.getProject(projectId, options);
+    return response.data;
+  }
+
+  async getProjectTaskCounts(projectId: string, opts: any = {}) {
+    // Only include opts if opt_fields was actually provided
+    const options = opts.opt_fields ? opts : {};
+    const response = await this.projects.getTaskCountsForProject(projectId, options);
+    return response.data;
+  }
+
+  async getProjectSections(projectId: string, opts: any = {}) {
+    // Only include opts if opt_fields was actually provided
+    const options = opts.opt_fields ? opts : {};
+    const sections = new Asana.SectionsApi();
+    const response = await sections.getSectionsForProject(projectId, options);
+    return response.data;
+  }
+
+  async createTaskStory(taskId: string, text: string, opts: any = {}) {
+    const options = opts.opt_fields ? opts : {};
+    const body = {
+      data: {
+        text: text
+      }
+    };
+    const response = await this.stories.createStoryForTask(body, taskId, options);
+    return response.data;
+  }
+
+  async addTaskDependencies(taskId: string, dependencies: string[]) {
+    const body = {
+      data: {
+        dependencies: dependencies
+      }
+    };
+    const response = await this.tasks.addDependenciesForTask(body, taskId);
+    return response.data;
+  }
+
+  async addTaskDependents(taskId: string, dependents: string[]) {
+    const body = {
+      data: {
+        dependents: dependents
+      }
+    };
+    const response = await this.tasks.addDependentsForTask(body, taskId);
+    return response.data;
+  }
+
+  async createSubtask(parentTaskId: string, data: any, opts: any = {}) {
+    const taskData = {
+      data: {
+        ...data
+      }
+    };
+    const response = await this.tasks.createSubtaskForTask(taskData, parentTaskId, opts);
     return response.data;
   }
 }
@@ -269,6 +559,78 @@ async function main() {
             };
           }
 
+          case "asana_get_task_stories": {
+            const { task_id, ...opts } = args;
+            const response = await asanaClient.getStoriesForTask(task_id, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_update_task": {
+            const { task_id, ...taskData } = args;
+            const response = await asanaClient.updateTask(task_id, taskData);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_project": {
+            const { project_id, ...opts } = args;
+            const response = await asanaClient.getProject(project_id, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_project_task_counts": {
+            const { project_id, ...opts } = args;
+            const response = await asanaClient.getProjectTaskCounts(project_id, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_project_sections": {
+            const { project_id, ...opts } = args;
+            const response = await asanaClient.getProjectSections(project_id, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_create_task_story": {
+            const { task_id, text, ...opts } = args;
+            const response = await asanaClient.createTaskStory(task_id, text, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_add_task_dependencies": {
+            const { task_id, dependencies } = args;
+            const response = await asanaClient.addTaskDependencies(task_id, dependencies);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_add_task_dependents": {
+            const { task_id, dependents } = args;
+            const response = await asanaClient.addTaskDependents(task_id, dependents);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_create_subtask": {
+            const { parent_task_id, opt_fields, ...taskData } = args;
+            const response = await asanaClient.createSubtask(parent_task_id, taskData, { opt_fields });
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
           default:
             throw new Error(`Unknown tool: ${request.params.name}`);
         }
@@ -297,6 +659,15 @@ async function main() {
         searchTasksTool,
         getTaskTool,
         createTaskTool,
+        getStoriesForTaskTool,
+        updateTaskTool,
+        getProjectTool,
+        getProjectTaskCountsTool,
+        getProjectSectionsTool,
+        createTaskStoryTool,
+        addTaskDependenciesTool,
+        addTaskDependentsTool,
+        createSubtaskTool,
       ],
     };
   });
