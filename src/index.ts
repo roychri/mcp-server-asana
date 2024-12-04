@@ -37,7 +37,7 @@ async function main() {
 
   server.setRequestHandler(
     CallToolRequestSchema,
-    await tool_handler(asanaClient)
+    tool_handler(asanaClient)
   );
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {

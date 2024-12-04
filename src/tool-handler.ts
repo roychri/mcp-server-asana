@@ -1,4 +1,4 @@
-import { CallToolRequest } from "@modelcontextprotocol/sdk/types.js";
+import { Tool, CallToolRequest, CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { AsanaClientWrapper } from './asana-client-wrapper.js';
 
 import { listWorkspacesTool } from './tools/workspace-tools.js';
@@ -25,7 +25,7 @@ import {
   createTaskStoryTool
 } from './tools/story-tools.js';
 
-export const list_of_tools = [
+export const list_of_tools: Tool[] = [
   listWorkspacesTool,
   searchProjectsTool,
   searchTasksTool,
@@ -43,7 +43,7 @@ export const list_of_tools = [
   getMultipleTasksByGidTool,
 ];
 
-export function tool_handler(asanaClient: AsanaClientWrapper) {
+export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
     return async (request: CallToolRequest) => {
       console.error("Received CallToolRequest:", request);
       try {
