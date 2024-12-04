@@ -1,6 +1,8 @@
 
 # MCP Server for Asana
 
+[![npm version](https://badge.fury.io/js/%40roychri%2Fmcp-server-asana.svg)](https://www.npmjs.com/package/@roychri/mcp-server-asana)
+
 This Model Context Protocol server implementation of Asana allows you
 to talk to Asana API from MCP Client such as Anthropic's Claude
 Desktop Application, and many more.
@@ -10,6 +12,17 @@ More details on MCP here:
  - https://modelcontextprotocol.io/introduction
  - https://github.com/modelcontextprotocol
 
+## Usage
+
+In the AI toold of your choice (ex: Claude Desktop) ask something about asana tasks, projects, workspaces, and/or comments. Mentioning the word "asana" will increase the chance of having the LLM pick the right tool.
+
+Example:
+
+> How many unfinished asana tasks do we have in our Sprint 30 project?
+
+Another example:
+
+![Claude Desktop Example](https://raw.githubusercontent.com/roychri/mcp-server-asana/main/mcp-server-asana-claude-example.png)
 
 ## Tools
 
