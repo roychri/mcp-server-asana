@@ -1,5 +1,6 @@
 #!/usr/bin/env node
 import { Server } from "@modelcontextprotocol/sdk/server/index.js";
+import { VERSION } from './version.js';
 import { StdioServerTransport } from "@modelcontextprotocol/sdk/server/stdio.js";
 import {
   CallToolRequest,
@@ -763,7 +764,7 @@ async function main() {
   const server = new Server(
     {
       name: "Asana MCP Server",
-      version: "1.2.0",
+      version: VERSION,
     },
     {
       capabilities: {

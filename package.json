@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "MCP Server for Asana",
   "main": "dist/index.js",
   "type": "module",
@@ -15,9 +15,9 @@
     "README.md"
   ],
   "scripts": {
-    "build": "tsc",
+    "build": "node build.js",
     "start": "node dist/index.js",
-    "dev": "NODE_OPTIONS='--loader ts-node/esm' node --experimental-specifier-resolution=node src/index.ts",
+    "dev": "NODE_ENV=development NODE_OPTIONS='--loader ts-node/esm' node --experimental-specifier-resolution=node src/index.ts",
     "watch": "tsc -w",
     "prepublishOnly": "npm run build",
     "inspector": "npx @modelcontextprotocol/inspector dist/index.js"
@@ -32,6 +32,8 @@
   "devDependencies": {
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^22.10.1",
+    "esbuild": "^0.24.0",
+    "esbuild-register": "^3.6.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
