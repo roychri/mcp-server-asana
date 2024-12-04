@@ -131,6 +131,13 @@ More details on MCP here:
         * assignee (string): Assignee (can be 'me' or a user ID)
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Created subtask information
+15. `asana_get_multiple_tasks_by_gid`
+    * Get detailed information about multiple tasks by their GIDs (maximum 25 tasks)
+    * Required input:
+        * task_ids (array of strings or comma-separated string): Task GIDs to retrieve (max 25)
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of detailed task information
 
 ## Prompts
 

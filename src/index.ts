@@ -481,6 +481,37 @@ const getStoriesForTaskTool: Tool = {
   }
 };
 
+const getMultipleTasksByGidTool: Tool = {
+  name: "asana_get_multiple_tasks_by_gid",
+  description: "Get detailed information about multiple tasks by their GIDs (maximum 25 tasks)",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_ids: {
+        oneOf: [
+          {
+            type: "array",
+            items: {
+              type: "string"
+            },
+            maxItems: 25
+          },
+          {
+            type: "string",
+            description: "Comma-separated list of task GIDs (max 25)"
+          }
+        ],
+        description: "Array or comma-separated string of task GIDs to retrieve (max 25)"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["task_ids"]
+  }
+};
+
 const createSubtaskTool: Tool = {
   name: "asana_create_subtask",
   description: "Create a new subtask for an existing task",
@@ -705,6 +736,19 @@ class AsanaClientWrapper {
     const response = await this.tasks.createSubtaskForTask(taskData, parentTaskId, opts);
     return response.data;
   }
+
+  async getMultipleTasksByGid(taskIds: string[], opts: any = {}) {
+    if (taskIds.length > 25) {
+      throw new Error("Maximum of 25 task IDs allowed");
+    }
+
+    // Use Promise.all to fetch tasks in parallel
+    const tasks = await Promise.all(
+      taskIds.map(taskId => this.getTask(taskId, opts))
+    );
+
+    return tasks;
+  }
 }
 
 async function main() {
@@ -859,6 +903,18 @@ async function main() {
             };
           }
 
+          case "asana_get_multiple_tasks_by_gid": {
+            const { task_ids, ...opts } = args;
+            // Handle both array and string input
+            const taskIdList = Array.isArray(task_ids)
+              ? task_ids
+              : task_ids.split(',').map((id: string) => id.trim()).filter((id: string) => id.length > 0);
+            const response = await asanaClient.getMultipleTasksByGid(taskIdList, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
           default:
             throw new Error(`Unknown tool: ${request.params.name}`);
         }
@@ -896,6 +952,7 @@ async function main() {
         addTaskDependenciesTool,
         addTaskDependentsTool,
         createSubtaskTool,
+        getMultipleTasksByGidTool,
       ],
     };
   });
