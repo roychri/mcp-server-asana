@@ -145,7 +145,7 @@ More details on MCP here:
     * Get a summary and status update for a task based on its notes, custom fields and comments
     * Required input:
         * task_id (string): The task ID to get summary for
-    * Returns: A detailed prompt asking for a summary message from the task details, custom fields, and comment history
+    * Returns: A detailed prompt with instructions for generating a task summary
 
 ## Resources
 
