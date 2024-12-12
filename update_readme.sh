@@ -1,5 +1,20 @@
 #!/bin/bash
 
+# Check if conda is installed
+if ! command -v conda &> /dev/null; then
+    echo "Error: conda is not installed or not in PATH"
+    echo "Please install conda first: https://docs.conda.io/en/latest/miniconda.html"
+    exit 1
+fi
+
+# Check if aider environment exists
+if ! conda env list | grep -q "^aider "; then
+    echo "Error: conda environment 'aider' does not exist"
+    echo "Please create it first: conda create -n aider python=3.11"
+    echo "Then install aider: conda activate aider && pip install aider-chat"
+    exit 1
+fi
+
 # Function to build the --read arguments for tool files
 build_read_args() {
     local read_args=""
