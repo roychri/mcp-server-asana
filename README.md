@@ -71,8 +71,12 @@ Another example:
         * name (string): Name of the task
     * Optional input:
         * notes (string): Description of the task
+        * html_notes (string): HTML-like formatted description of the task
         * due_on (string): Due date in YYYY-MM-DD format
         * assignee (string): Assignee (can be 'me' or a user ID)
+        * followers (array of strings): Array of user IDs to add as followers
+        * parent (string): The parent task ID to set this task under
+        * projects (array of strings): Array of project IDs to add this task to
     * Returns: Created task information
 6. `asana_get_task_stories`
     * Get comments and stories for a specific task
