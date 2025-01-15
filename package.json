@@ -7,13 +7,13 @@
   "description": "MCP Server for Asana",
   "repository": {
     "type": "git",
-    "url": "https://github.com/roychri/mcp-server-asana.git"
+    "url": "git+https://github.com/roychri/mcp-server-asana.git"
   },
   "homepage": "https://github.com/roychri/mcp-server-asana?tab=readme-ov-file#mcp-server-for-asana",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
-    "mcp-server-asana": "./dist/index.js"
+    "mcp-server-asana": "dist/index.js"
   },
   "files": [
     "dist",
