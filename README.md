@@ -56,6 +56,7 @@ Another example:
         * sort_by (string): Sort by due_date, created_at, completed_at, likes, modified_at (default: modified_at)
         * sort_ascending (boolean): Sort in ascending order (default: false)
         * opt_fields (string): Comma-separated list of optional fields to include
+        * custom_fields (object): Object containing custom field filters
     * Returns: List of matching tasks
 4. `asana_get_task`
     * Get detailed information about a specific task
