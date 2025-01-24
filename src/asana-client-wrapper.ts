@@ -83,7 +83,38 @@ export class AsanaClientWrapper {
     if (opt_fields) searchParams.opt_fields = opt_fields;
 
     const response = await this.tasks.searchTasksForWorkspace(workspace, searchParams);
-    return response.data;
+
+    // Transform the response to simplify custom fields if present
+    const transformedData = response.data.map((task: any) => {
+      if (!task.custom_fields) return task;
+
+      return {
+        ...task,
+        custom_fields: task.custom_fields.map((field: any) => {
+          const baseField = {
+            gid: field.gid,
+            name: field.name,
+            display_value: field.display_value,
+            type: field.type
+          };
+
+          // Get the value based on field type (number_value, text_value, enum_value, etc)
+          const rawValue = field[`${field.type}_value`];
+
+          // For enum types, only keep gid and name
+          const value = field.type === 'enum' && rawValue ?
+            { gid: rawValue.gid, name: rawValue.name } :
+            rawValue;
+
+          return {
+            ...baseField,
+            value
+          };
+        })
+      };
+    });
+
+    return transformedData;
   }
 
   async getTask(taskId: string, opts: any = {}) {
