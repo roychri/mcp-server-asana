@@ -90,27 +90,18 @@ export class AsanaClientWrapper {
 
       return {
         ...task,
-        custom_fields: task.custom_fields.map((field: any) => {
-          const baseField = {
-            gid: field.gid,
-            name: field.name,
-            display_value: field.display_value,
-            type: field.type
-          };
-
-          // Get the value based on field type (number_value, text_value, enum_value, etc)
-          const rawValue = field[`${field.type}_value`];
-
-          // For enum types, only keep gid and name
-          const value = field.type === 'enum' && rawValue ?
-            { gid: rawValue.gid, name: rawValue.name } :
-            rawValue;
-
-          return {
-            ...baseField,
-            value
-          };
-        })
+        custom_fields: task.custom_fields.reduce((acc: any, field: any) => {
+          const key = `${field.name} (${field.gid})`;
+          let value = field.display_value;
+          
+          // For enum fields with a value, include the enum option GID
+          if (field.type === 'enum' && field.enum_value) {
+            value = `${field.display_value} (${field.enum_value.gid})`;
+          }
+          
+          acc[key] = value;
+          return acc;
+        }, {})
       };
     });
 
