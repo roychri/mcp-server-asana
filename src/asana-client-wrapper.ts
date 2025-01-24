@@ -93,12 +93,12 @@ export class AsanaClientWrapper {
         custom_fields: task.custom_fields.reduce((acc: any, field: any) => {
           const key = `${field.name} (${field.gid})`;
           let value = field.display_value;
-          
+
           // For enum fields with a value, include the enum option GID
           if (field.type === 'enum' && field.enum_value) {
             value = `${field.display_value} (${field.enum_value.gid})`;
           }
-          
+
           acc[key] = value;
           return acc;
         }, {})
