@@ -52,6 +52,24 @@ export class AsanaClientWrapper {
       ...otherOpts // Include any additional filter parameters
     };
 
+    // Handle custom fields if provided
+    if (searchOpts.custom_fields) {
+      if ( typeof searchOpts.custom_fields == "string" ) {
+        try {
+          searchOpts.custom_fields = JSON.parse( searchOpts.custom_fields );
+        } catch ( err ) {
+          if (err instanceof Error) {
+            err.message = "custom_fields must be a JSON object : " + err.message;
+          }
+          throw err;
+        }
+      }
+      Object.entries(searchOpts.custom_fields).forEach(([key, value]) => {
+        searchParams[`custom_fields.${key}`] = value;
+      });
+      delete searchParams.custom_fields; // Remove the custom_fields object since we've processed it
+    }
+
     // Add optional parameters if provided
     if (text) searchParams.text = text;
     if (resource_subtype) searchParams.resource_subtype = resource_subtype;
