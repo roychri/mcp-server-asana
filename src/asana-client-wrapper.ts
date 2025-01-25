@@ -211,4 +211,9 @@ export class AsanaClientWrapper {
 
     return tasks;
   }
+
+  async getTasksForTag(tag_gid: string, opts: any = {}) {
+    const response = await this.tasks.getTasksForTag(tag_gid, opts);
+    return response.data;
+  }
 }

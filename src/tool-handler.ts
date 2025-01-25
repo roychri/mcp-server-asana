@@ -14,7 +14,8 @@ import {
   createTaskTool,
   updateTaskTool,
   createSubtaskTool,
-  getMultipleTasksByGidTool
+  getMultipleTasksByGidTool,
+  getTasksForTagTool
 } from './tools/task-tools.js';
 import {
   addTaskDependenciesTool,
@@ -41,6 +42,7 @@ export const list_of_tools: Tool[] = [
   addTaskDependentsTool,
   createSubtaskTool,
   getMultipleTasksByGidTool,
+  getTasksForTagTool,
 ];
 
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
@@ -177,6 +179,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               ? task_ids
               : task_ids.split(',').map((id: string) => id.trim()).filter((id: string) => id.length > 0);
             const response = await asanaClient.getMultipleTasksByGid(taskIdList, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_tasks_for_tag": {
+            const { tag_gid, ...opts } = args;
+            const response = await asanaClient.getTasksForTag(tag_gid, opts);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
