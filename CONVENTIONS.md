@@ -1,9 +1,11 @@
 Use Typescript.
 Use the new and improved Asana NodeJS SDK v3. DO NOT USE Asana Node.js SDK v1
 
+When adding a new tool, make sure to also add it to the list_of_tools
+
+
 ## Advantages of using the v3 Node.js SDK
 
-- **More frequent updates** - Our latest Node SDK benefits from automation that allows us to quickly roll out updates as the Asana API evolves. This means you can take advantage of the latest features and endpoints through the Node SDK soon after their release.
 - **Using native, modern JavaScript features** - Our previous Node SDKs leveraged polyfills for functionality that is now natively supported (like Promises). The latest SDK versions take advantage of these native implementations and are more compatible with modern Node runtimes.
 - **Standard interface** - Our latest Node SDK is built using tools which are common in the industry. It may be similar to SDKs you’ve used with other services.
 
