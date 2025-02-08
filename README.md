@@ -156,6 +156,38 @@ Another example:
     * Optional input:
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: List of detailed task information
+16. `asana_get_project_status`
+    * Get a project status update
+    * Required input:
+        * project_status_gid (string): The project status GID to retrieve
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Project status information
+17. `asana_get_project_statuses`
+    * Get all status updates for a project
+    * Required input:
+        * project_gid (string): The project GID to get statuses for
+    * Optional input:
+        * limit (number): Results per page (1-100)
+        * offset (string): Pagination offset token
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of project status updates
+18. `asana_create_project_status`
+    * Create a new status update for a project
+    * Required input:
+        * project_gid (string): The project GID to create the status for
+        * text (string): The text content of the status update
+    * Optional input:
+        * color (string): The color of the status (green, yellow, red)
+        * title (string): The title of the status update
+        * html_text (string): HTML formatted text for the status update
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Created project status information
+19. `asana_delete_project_status`
+    * Delete a project status update
+    * Required input:
+        * project_status_gid (string): The project status GID to delete
+    * Returns: Deletion confirmation
 
 ## Prompts
 

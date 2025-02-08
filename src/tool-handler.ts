@@ -8,6 +8,12 @@ import {
   getProjectTaskCountsTool,
   getProjectSectionsTool
 } from './tools/project-tools.js';
+import { 
+  getProjectStatusTool,
+  getProjectStatusesForProjectTool,
+  createProjectStatusTool,
+  deleteProjectStatusTool
+} from './tools/project-status-tools.js';
 import {
   searchTasksTool,
   getTaskTool,
@@ -41,6 +47,10 @@ export const list_of_tools: Tool[] = [
   addTaskDependentsTool,
   createSubtaskTool,
   getMultipleTasksByGidTool,
+  getProjectStatusTool,
+  getProjectStatusesForProjectTool,
+  createProjectStatusTool,
+  deleteProjectStatusTool
 ];
 
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
@@ -125,6 +135,38 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           case "asana_get_project_task_counts": {
             const { project_id, ...opts } = args;
             const response = await asanaClient.getProjectTaskCounts(project_id, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_project_status": {
+            const { project_status_gid, ...opts } = args;
+            const response = await asanaClient.getProjectStatus(project_status_gid, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_project_statuses": {
+            const { project_gid, ...opts } = args;
+            const response = await asanaClient.getProjectStatusesForProject(project_gid, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_create_project_status": {
+            const { project_gid, ...statusData } = args;
+            const response = await asanaClient.createProjectStatus(project_gid, statusData);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_delete_project_status": {
+            const { project_status_gid } = args;
+            const response = await asanaClient.deleteProjectStatus(project_status_gid);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };

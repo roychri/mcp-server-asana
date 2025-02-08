@@ -5,6 +5,7 @@ export class AsanaClientWrapper {
   private projects: any;
   private tasks: any;
   private stories: any;
+  private projectStatuses: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -15,6 +16,7 @@ export class AsanaClientWrapper {
     this.projects = new Asana.ProjectsApi();
     this.tasks = new Asana.TasksApi();
     this.stories = new Asana.StoriesApi();
+    this.projectStatuses = new Asana.ProjectStatusesApi();
   }
 
   async listWorkspaces(opts: any = {}) {
@@ -196,6 +198,27 @@ export class AsanaClientWrapper {
       }
     };
     const response = await this.tasks.createSubtaskForTask(taskData, parentTaskId, opts);
+    return response.data;
+  }
+
+  async getProjectStatus(statusId: string, opts: any = {}) {
+    const response = await this.projectStatuses.getProjectStatus(statusId, opts);
+    return response.data;
+  }
+
+  async getProjectStatusesForProject(projectId: string, opts: any = {}) {
+    const response = await this.projectStatuses.getProjectStatusesForProject(projectId, opts);
+    return response.data;
+  }
+
+  async createProjectStatus(projectId: string, data: any) {
+    const body = { data };
+    const response = await this.projectStatuses.createProjectStatusForProject(body, projectId);
+    return response.data;
+  }
+
+  async deleteProjectStatus(statusId: string) {
+    const response = await this.projectStatuses.deleteProjectStatus(statusId);
     return response.data;
   }
 

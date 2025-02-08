@@ -21,6 +21,7 @@
   ],
   "scripts": {
     "build": "node build.js",
+    "prepare": "npm run build",
     "start": "node dist/index.js",
     "dev": "NODE_ENV=development NODE_OPTIONS='--loader ts-node/esm' node --experimental-specifier-resolution=node src/index.ts",
     "watch": "tsc -w",
@@ -35,6 +36,7 @@
   "author": "Christian Roy",
   "license": "MIT",
   "devDependencies": {
+    "@modelcontextprotocol/inspector": "^0.4.0",
     "@tsconfig/node20": "^20.1.4",
     "@types/node": "^22.10.1",
     "esbuild": "^0.24.0",
@@ -43,7 +45,7 @@
     "typescript": "^5.7.2"
   },
   "dependencies": {
-    "@modelcontextprotocol/sdk": "^1.0.1",
+    "@modelcontextprotocol/sdk": "^1.4.1",
     "asana": "^3.0.12"
   }
 }
