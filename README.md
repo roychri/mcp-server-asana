@@ -80,6 +80,8 @@ Another example:
         * followers (array of strings): Array of user IDs to add as followers
         * parent (string): The parent task ID to set this task under
         * projects (array of strings): Array of project IDs to add this task to
+        * resource_subtype (string): The type of the task (default_task or milestone)
+        * custom_fields (object): Object mapping custom field GID strings to their values
     * Returns: Created task information
 6. `asana_get_task_stories`
     * Get comments and stories for a specific task
@@ -98,6 +100,8 @@ Another example:
         * due_on (string): New due date in YYYY-MM-DD format
         * assignee (string): New assignee (can be 'me' or a user ID)
         * completed (boolean): Mark task as completed or not
+        * resource_subtype (string): The type of the task (default_task or milestone)
+        * custom_fields (object): Object mapping custom field GID strings to their values
     * Returns: Updated task information
 8. `asana_get_project`
     * Get detailed information about a specific project

@@ -116,10 +116,20 @@ export class AsanaClientWrapper {
   }
 
   async createTask(projectId: string, data: any) {
+    // Ensure projects array includes the projectId
+    const projects = data.projects || [];
+    if (!projects.includes(projectId)) {
+      projects.push(projectId);
+    }
+
     const taskData = {
       data: {
         ...data,
-        projects: [projectId]
+        projects,
+        // Handle resource_subtype if provided
+        resource_subtype: data.resource_subtype || 'default_task',
+        // Handle custom_fields if provided
+        custom_fields: data.custom_fields || {}
       }
     };
     const response = await this.tasks.createTask(taskData);
@@ -132,7 +142,15 @@ export class AsanaClientWrapper {
   }
 
   async updateTask(taskId: string, data: any) {
-    const body = { data };
+    const body = {
+      data: {
+        ...data,
+        // Handle resource_subtype if provided
+        resource_subtype: data.resource_subtype || undefined,
+        // Handle custom_fields if provided
+        custom_fields: data.custom_fields || undefined
+      }
+    };
     const opts = {};
     const response = await this.tasks.updateTask(body, taskId, opts);
     return response.data;

@@ -308,6 +308,14 @@ export const createTaskTool: Tool = {
           type: "string"
         },
         description: "Array of project IDs to add this task to"
+      },
+      resource_subtype: {
+        type: "string",
+        description: "The type of the task. Can be one of 'default_task' or 'milestone'"
+      },
+      custom_fields: {
+        type: "object",
+        description: "Object mapping custom field GID strings to their values. For enum fields use the enum option GID as the value."
       }
     },
     required: ["project_id", "name"]
@@ -343,6 +351,14 @@ export const updateTaskTool: Tool = {
       completed: {
         type: "boolean",
         description: "Mark task as completed or not"
+      },
+      resource_subtype: {
+        type: "string",
+        description: "The type of the task. Can be one of 'default_task' or 'milestone'"
+      },
+      custom_fields: {
+        type: "object",
+        description: "Object mapping custom field GID strings to their values. For enum fields use the enum option GID as the value."
       }
     },
     required: ["task_id"]
