@@ -12,6 +12,8 @@ More details on MCP here:
  - https://modelcontextprotocol.io/introduction
  - https://github.com/modelcontextprotocol
 
+<a href="https://glama.ai/mcp/servers/ln1qzdhwmc"><img width="380" height="200" src="https://glama.ai/mcp/servers/ln1qzdhwmc/badge" alt="mcp-server-asana MCP server" /></a>
+
 ## Usage
 
 In the AI toold of your choice (ex: Claude Desktop) ask something about asana tasks, projects, workspaces, and/or comments. Mentioning the word "asana" will increase the chance of having the LLM pick the right tool.
