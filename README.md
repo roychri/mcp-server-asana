@@ -1,4 +1,3 @@
-
 # MCP Server for Asana
 
 [![npm version](https://badge.fury.io/js/%40roychri%2Fmcp-server-asana.svg)](https://www.npmjs.com/package/@roychri/mcp-server-asana)
@@ -190,6 +189,16 @@ Another example:
     * Required input:
         * project_status_gid (string): The project status GID to delete
     * Returns: Deletion confirmation
+20. `asana_set_parent_for_task`
+    * Set the parent of a task and position the subtask within the other subtasks of that parent
+    * Required input:
+        * task_id (string): The task ID to operate on
+        * parent (string): The new parent of the task, or null for no parent
+    * Optional input:
+        * insert_after (string): A subtask of the parent to insert the task after, or null to insert at the beginning of the list
+        * insert_before (string): A subtask of the parent to insert the task before, or null to insert at the end of the list
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Updated task information
 
 ## Prompts
 

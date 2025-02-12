@@ -24,7 +24,8 @@ import {
 } from './tools/task-tools.js';
 import {
   addTaskDependenciesTool,
-  addTaskDependentsTool
+  addTaskDependentsTool,
+  setParentForTaskTool
 } from './tools/task-relationship-tools.js';
 import {
   getStoriesForTaskTool,
@@ -50,7 +51,8 @@ export const list_of_tools: Tool[] = [
   getProjectStatusTool,
   getProjectStatusesForProjectTool,
   createProjectStatusTool,
-  deleteProjectStatusTool
+  deleteProjectStatusTool,
+  setParentForTaskTool
 ];
 
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
@@ -219,6 +221,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               ? task_ids
               : task_ids.split(',').map((id: string) => id.trim()).filter((id: string) => id.length > 0);
             const response = await asanaClient.getMultipleTasksByGid(taskIdList, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_set_parent_for_task": {
+            const { task_id, ...parentData } = args;
+            const response = await asanaClient.setParentForTask(task_id, parentData);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
