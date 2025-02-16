@@ -16,7 +16,7 @@ More details on MCP here:
 
 ## Usage
 
-In the AI toold of your choice (ex: Claude Desktop) ask something about asana tasks, projects, workspaces, and/or comments. Mentioning the word "asana" will increase the chance of having the LLM pick the right tool.
+In the AI tool of your choice (ex: Claude Desktop) ask something about asana tasks, projects, workspaces, and/or comments. Mentioning the word "asana" will increase the chance of having the LLM pick the right tool.
 
 Example:
 
