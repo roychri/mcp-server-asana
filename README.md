@@ -203,6 +203,25 @@ Another example:
         * insert_before (string): A subtask of the parent to insert the task before, or null to insert at the end of the list
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Updated task information
+21. `asana_get_tasks_for_tag`
+    * Get tasks for a specific tag
+    * Required input:
+        * tag_gid (string): The tag GID to retrieve tasks for
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+        * opt_pretty (boolean): Provides the response in a 'pretty' format
+        * limit (integer): The number of objects to return per page. The value must be between 1 and 100.
+        * offset (string): An offset to the next page returned by the API.
+    * Returns: List of tasks for the specified tag
+22. `asana_get_tags_for_workspace`
+    * Get tags in a workspace
+    * Required input:
+        * workspace_gid (string): Globally unique identifier for the workspace or organization
+    * Optional input:
+        * limit (integer): Results per page. The number of objects to return per page. The value must be between 1 and 100.
+        * offset (string): Offset token. An offset to the next page returned by the API.
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of tags in the workspace
 
 ## Prompts
 

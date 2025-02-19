@@ -6,6 +6,7 @@ export class AsanaClientWrapper {
   private tasks: any;
   private stories: any;
   private projectStatuses: any;
+  private tags: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -17,6 +18,7 @@ export class AsanaClientWrapper {
     this.tasks = new Asana.TasksApi();
     this.stories = new Asana.StoriesApi();
     this.projectStatuses = new Asana.ProjectStatusesApi();
+    this.tags = new Asana.TagsApi();
   }
 
   async listWorkspaces(opts: any = {}) {
@@ -256,5 +258,15 @@ export class AsanaClientWrapper {
     );
 
     return tasks;
+  }
+
+  async getTasksForTag(tag_gid: string, opts: any = {}) {
+    const response = await this.tasks.getTasksForTag(tag_gid, opts);
+    return response.data;
+  }
+
+  async getTagsForWorkspace(workspace_gid: string, opts: any = {}) {
+    const response = await this.tags.getTagsForWorkspace(workspace_gid, opts);
+    return response.data;
   }
 }

@@ -22,6 +22,7 @@ import {
   createSubtaskTool,
   getMultipleTasksByGidTool
 } from './tools/task-tools.js';
+import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.js';
 import {
   addTaskDependenciesTool,
   addTaskDependentsTool,
@@ -52,7 +53,9 @@ export const list_of_tools: Tool[] = [
   getProjectStatusesForProjectTool,
   createProjectStatusTool,
   deleteProjectStatusTool,
-  setParentForTaskTool
+  setParentForTaskTool,
+  getTasksForTagTool,
+  getTagsForWorkspaceTool,
 ];
 
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
@@ -235,6 +238,22 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               opts = JSON.parse( opts );
             }
             const response = await asanaClient.setParentForTask(data, task_id, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_tasks_for_tag": {
+            const { tag_gid, ...opts } = args;
+            const response = await asanaClient.getTasksForTag(tag_gid, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_tags_for_workspace": {
+            const { workspace_gid, ...opts } = args;
+            const response = await asanaClient.getTagsForWorkspace(workspace_gid, opts);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
