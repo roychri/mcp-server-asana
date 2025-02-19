@@ -219,6 +219,11 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
+  async setParentForTask(data: any, taskId: string, opts: any = {}) {
+    const response = await this.tasks.setParentForTask({ data }, taskId, opts);
+    return response.data;
+  }
+
   async getProjectStatus(statusId: string, opts: any = {}) {
     const response = await this.projectStatuses.getProjectStatus(statusId, opts);
     return response.data;

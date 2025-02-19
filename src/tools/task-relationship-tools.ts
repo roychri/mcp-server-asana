@@ -43,3 +43,39 @@ export const addTaskDependentsTool: Tool = {
     required: ["task_id", "dependents"]
   }
 };
+
+export const setParentForTaskTool: Tool = {
+  name: "asana_set_parent_for_task",
+  description: "Set the parent of a task and position the subtask within the other subtasks of that parent",
+  inputSchema: {
+    type: "object",
+    properties: {
+      data: {
+        parent: {
+          type: "string",
+          description: "The GID of the new parent of the task, or null for no parent",
+          required: true
+        },
+        insert_after: {
+          type: "string",
+          description: "A subtask of the parent to insert the task after, or null to insert at the beginning of the list. Cannot be used with insert_before. The task must already be set as a subtask of that parent."
+        },
+        insert_before: {
+          type: "string",
+          description: "A subtask of the parent to insert the task before, or null to insert at the end of the list. Cannot be used with insert_after. The task must already be set as a subtask of that parent."
+        },
+      },
+      task_id: {
+        type: "string",
+        description: "The task ID to operate on"
+      },
+      opts: {
+        opt_fields: {
+          type: "string",
+          description: "Comma-separated list of optional fields to include"
+        }
+      }
+    },
+    required: ["task_id", "data"]
+  }
+};
