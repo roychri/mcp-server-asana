@@ -76,6 +76,6 @@ export const setParentForTaskTool: Tool = {
         }
       }
     },
-    required: ["task_id", "parent"]
+    required: ["task_id", "data"]
   }
 };
