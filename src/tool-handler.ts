@@ -227,8 +227,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           }
 
           case "asana_set_parent_for_task": {
-            const { task_id, ...parentData } = args;
-            const response = await asanaClient.setParentForTask(task_id, parentData);
+            let { data, task_id, opts } = args;
+            if ( typeof data == "string" ) {
+              data = JSON.parse( data );
+            }
+            if ( typeof opts == "string" ) {
+              opts = JSON.parse( opts );
+            }
+            const response = await asanaClient.setParentForTask(data, task_id, opts);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
