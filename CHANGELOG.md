@@ -9,11 +9,10 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
-- Support for milestone tasks through resource_subtype parameter
-- Enhanced custom fields support with direct GID mapping in task operations
-
-### Changed
-- Improved task creation workflow with better project and custom fields handling
+- Tag management: find tasks by tags and browse tags in workspaces
+- Support for creating milestone/approval tasks in your projects
+- Custom fields support when creating and updating tasks
+- Enhanced subtask organization with ability to position subtasks in specific order
 
 ## [1.6.0] - 2025-02-08
 
