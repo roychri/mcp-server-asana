@@ -431,33 +431,3 @@ export const getMultipleTasksByGidTool: Tool = {
   }
 };
 
-export const getTasksForTagTool: Tool = {
-  name: "asana_get_tasks_for_tag",
-  description: "Get tasks for a specific tag",
-  inputSchema: {
-    type: "object",
-    properties: {
-      tag_gid: {
-        type: "string",
-        description: "The tag GID to retrieve tasks for"
-      },
-      opt_fields: {
-        type: "string",
-        description: "Comma-separated list of optional fields to include"
-      },
-      opt_pretty: {
-        type: "boolean",
-        description: "Provides the response in a 'pretty' format"
-      },
-      limit: {
-        type: "integer",
-        description: "The number of objects to return per page. The value must be between 1 and 100."
-      },
-      offset: {
-        type: "string",
-        description: "An offset to the next page returned by the API."
-      }
-    },
-    required: ["tag_gid"]
-  }
-};
