@@ -266,6 +266,16 @@ None
    }
    ```
 
+   **Note:** As of version 1.7.0, the server supports both raw and base64-encoded access tokens. If you prefer to encode your token for added security, you can base64 encode it and use the encoded value:
+   
+   ```json
+   "env": {
+     "ASANA_ACCESS_TOKEN": "base64-encoded-asana-access-token"
+   }
+   ```
+   
+   The server will automatically attempt to decode the token and fall back to using it as-is if decoding fails.
+
 ## Troubleshooting
 
 If you encounter permission errors:
