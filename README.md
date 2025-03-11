@@ -197,7 +197,8 @@ Another example:
     * Set the parent of a task and position the subtask within the other subtasks of that parent
     * Required input:
         * task_id (string): The task ID to operate on
-        * parent (string): The new parent of the task, or null for no parent
+        * data (object):
+            * parent (string): The new parent of the task, or null for no parent
     * Optional input:
         * insert_after (string): A subtask of the parent to insert the task after, or null to insert at the beginning of the list
         * insert_before (string): A subtask of the parent to insert the task before, or null to insert at the end of the list
