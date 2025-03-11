@@ -233,7 +233,17 @@ Another example:
 
 ## Resources
 
-None
+1. Workspaces - `asana://workspace/{workspace_gid}`
+   * Representation of Asana workspaces as resources
+   * Each workspace is exposed as a separate resource
+   * URI Format: `asana://workspace/{workspace_gid}`
+   * Returns: JSON object with workspace details including:
+     * `name`: Workspace name (string)
+     * `id`: Workspace global ID (string)
+     * `type`: Resource type (string)
+     * `is_organization`: Whether the workspace is an organization (boolean)
+     * `email_domains`: List of email domains associated with the workspace (string[])
+   * Mime Type: `application/json`
 
 ## Setup
 

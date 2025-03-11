@@ -48,12 +48,23 @@ conda run -n aider aider \
       --haiku \
       --yes-always \
       --no-check-update \
-      --read src/index.ts \
+      --read src/prompt-handler.ts \
       --message "Modify the README's list of prompts based on the code.
 Only update the list of prompt and NOTHING else. Make sure you indicate
-the list of prompts, their description, their input and return values.
+the list of prompts, and their description.
 Remember that prompts returns prompts, not what the prompt instructions says.
 Good: Returns: A detailed prompt with instructions that ...
 Bad: Returns: A full project brief that ...
+Keep the same format, structure, style, and spacing." \
+      README.md
+
+conda run -n aider aider \
+      --haiku \
+      --yes-always \
+      --no-check-update \
+      --read src/resource-handler.ts \
+      --message "Modify the README's list of resources based on the code.
+Only update the list of resources and NOTHING else. Make sure you indicate
+the list of resources, their description, and return values.
 Keep the same format, structure, style, and spacing." \
       README.md

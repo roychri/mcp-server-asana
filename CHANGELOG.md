@@ -13,6 +13,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Support for creating milestone/approval tasks in your projects
 - Custom fields support when creating and updating tasks
 - Enhanced subtask organization with ability to position subtasks in specific order
+- Resources support: workspaces are now available as resources
 
 ## [1.6.0] - 2025-02-08
 

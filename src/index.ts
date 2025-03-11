@@ -8,9 +8,12 @@ import {
   ListToolsRequestSchema,
   ListPromptsRequestSchema,
   GetPromptRequestSchema,
+  ListResourcesRequestSchema,
+  ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { AsanaClientWrapper } from './asana-client-wrapper.js'
 import { createPromptHandlers } from './prompt-handler.js';
+import { createResourceHandlers } from './resource-handler.js';
 
 async function main() {
   const asanaToken = process.env.ASANA_ACCESS_TOKEN;
@@ -29,7 +32,8 @@ async function main() {
     {
       capabilities: {
         tools: {},
-        prompts: {}
+        prompts: {},
+        resources: {}
       },
     }
   );
@@ -48,12 +52,16 @@ async function main() {
     };
   });
 
-
   const promptHandlers = createPromptHandlers(asanaClient);
 
   // Add prompt handlers
   server.setRequestHandler(ListPromptsRequestSchema, promptHandlers.listPrompts);
   server.setRequestHandler(GetPromptRequestSchema, promptHandlers.getPrompt);
+
+  // Add resource handlers
+  const resourceHandlers = createResourceHandlers(asanaClient);
+  server.setRequestHandler(ListResourcesRequestSchema, resourceHandlers.listResources);
+  server.setRequestHandler(ReadResourceRequestSchema, resourceHandlers.readResource);
 
   const transport = new StdioServerTransport();
   console.error("Connecting server to transport...");
