@@ -231,6 +231,22 @@ Another example:
         * task_id (string): The task ID to get summary for
     * Returns: A detailed prompt with instructions for generating a task summary
 
+2. `task-completeness`
+    * Analyze if a task description contains all necessary details for completion
+    * Required input:
+        * task_id (string): The task ID or URL to analyze
+    * Returns: A detailed prompt with instructions for analyzing task completeness
+
+3. `create-task`
+    * Create a new task with specified details
+    * Required input:
+        * project_name (string): The name of the Asana project where the task should be created
+        * title (string): The title of the task
+    * Optional input:
+        * notes (string): Notes or description for the task
+        * due_date (string): Due date for the task (YYYY-MM-DD format)
+    * Returns: A detailed prompt with instructions for creating a comprehensive task
+
 ## Resources
 
 1. Workspaces - `asana://workspace/{workspace_gid}`
