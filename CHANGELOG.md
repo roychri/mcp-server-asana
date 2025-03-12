@@ -14,6 +14,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Custom fields support when creating and updating tasks
 - Enhanced subtask organization with ability to position subtasks in specific order
 - Resources support: workspaces are now available as resources
+- New task management prompts to help analyze task completeness and create tasks more effectively
+- Ability to set parent tasks and position subtasks within a task hierarchy
+
+### Changed
+- Renamed filter keys to use underscores for better compatibility and clarity
 
 ## [1.6.0] - 2025-02-08
 
