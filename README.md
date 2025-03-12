@@ -293,6 +293,15 @@ Another example:
    }
    ```
 
+If you want to install the beta version (not yet released), you can use:
+
+* `@roychri/mcp-server-asana@beta`
+
+You can find the current beta release, if any, with either:
+
+1. https://www.npmjs.com/package/@roychri/mcp-server-asana?activeTab=versions
+2. `npm dist-tag ls @roychri/mcp-server-asana`
+
 ## Troubleshooting
 
 If you encounter permission errors:
