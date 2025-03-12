@@ -7,6 +7,7 @@ export class AsanaClientWrapper {
   private stories: any;
   private projectStatuses: any;
   private tags: any;
+  private customFieldSettings: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -19,6 +20,7 @@ export class AsanaClientWrapper {
     this.stories = new Asana.StoriesApi();
     this.projectStatuses = new Asana.ProjectStatusesApi();
     this.tags = new Asana.TagsApi();
+    this.customFieldSettings = new Asana.CustomFieldSettingsApi();
   }
 
   async listWorkspaces(opts: any = {}) {
@@ -163,6 +165,21 @@ export class AsanaClientWrapper {
     const options = opts.opt_fields ? opts : {};
     const response = await this.projects.getProject(projectId, options);
     return response.data;
+  }
+
+  async getProjectCustomFieldSettings(projectId: string, opts: any = {}) {
+    try {
+      const options = {
+        limit: 100,
+        opt_fields: opts.opt_fields || "custom_field,custom_field.name,custom_field.gid,custom_field.resource_type,custom_field.type,custom_field.description,custom_field.enum_options,custom_field.enum_options.name,custom_field.enum_options.gid,custom_field.enum_options.enabled"
+      };
+
+      const response = await this.customFieldSettings.getCustomFieldSettingsForProject(projectId, options);
+      return response.data;
+    } catch (error) {
+      console.error(`Error fetching custom field settings for project ${projectId}:`, error);
+      return [];
+    }
   }
 
   async getProjectTaskCounts(projectId: string, opts: any = {}) {

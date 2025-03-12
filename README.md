@@ -262,6 +262,25 @@ Another example:
      * `email_domains`: List of email domains associated with the workspace (string[])
    * Mime Type: `application/json`
 
+2. Projects - `asana://project/{project_gid}`
+   * Template resource for retrieving project details by GID
+   * URI Format: `asana://project/{project_gid}`
+   * Returns: JSON object with project details including:
+     * `name`: Project name (string)
+     * `id`: Project global ID (string)
+     * `type`: Resource type (string)
+     * `archived`: Whether the project is archived (boolean)
+     * `public`: Whether the project is public (boolean)
+     * `notes`: Project description/notes (string)
+     * `color`: Project color (string)
+     * `default_view`: Default view type (string)
+     * `due_date`, `due_on`, `start_on`: Project date information (string)
+     * `workspace`: Object containing workspace information
+     * `team`: Object containing team information
+     * `sections`: Array of section objects in the project
+     * `custom_fields`: Array of custom field definitions for the project
+   * Mime Type: `application/json`
+
 ## Setup
 
 

@@ -9,6 +9,7 @@ import {
   ListPromptsRequestSchema,
   GetPromptRequestSchema,
   ListResourcesRequestSchema,
+  ListResourceTemplatesRequestSchema,
   ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { AsanaClientWrapper } from './asana-client-wrapper.js'
@@ -61,6 +62,7 @@ async function main() {
   // Add resource handlers
   const resourceHandlers = createResourceHandlers(asanaClient);
   server.setRequestHandler(ListResourcesRequestSchema, resourceHandlers.listResources);
+  server.setRequestHandler(ListResourceTemplatesRequestSchema, resourceHandlers.listResourceTemplates);
   server.setRequestHandler(ReadResourceRequestSchema, resourceHandlers.readResource);
 
   const transport = new StdioServerTransport();
