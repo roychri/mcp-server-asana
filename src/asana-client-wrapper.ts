@@ -286,4 +286,35 @@ export class AsanaClientWrapper {
     const response = await this.tags.getTagsForWorkspace(workspace_gid, opts);
     return response.data;
   }
+
+  async createTag(workspace_gid: string, data: any) {
+    const tagData = {
+      data: {
+        ...data,
+        workspace: workspace_gid
+      }
+    };
+    const response = await this.tags.createTag(tagData);
+    return response.data;
+  }
+
+  async addTagToTask(task_gid: string, tag_gid: string) {
+    const body = {
+      data: {
+        tag: tag_gid
+      }
+    };
+    const response = await this.tasks.addTagForTask(body, task_gid);
+    return response.data;
+  }
+
+  async removeTagFromTask(task_gid: string, tag_gid: string) {
+    const body = {
+      data: {
+        tag: tag_gid
+      }
+    };
+    const response = await this.tasks.removeTagForTask(body, task_gid);
+    return response.data;
+  }
 }

@@ -22,7 +22,7 @@ import {
   createSubtaskTool,
   getMultipleTasksByGidTool
 } from './tools/task-tools.js';
-import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.js';
+import { getTasksForTagTool, getTagsForWorkspaceTool, createTagTool, addTagToTaskTool, removeTagFromTaskTool } from './tools/tag-tools.js';
 import {
   addTaskDependenciesTool,
   addTaskDependentsTool,
@@ -56,6 +56,9 @@ export const list_of_tools: Tool[] = [
   setParentForTaskTool,
   getTasksForTagTool,
   getTagsForWorkspaceTool,
+  createTagTool,
+  addTagToTaskTool,
+  removeTagFromTaskTool,
 ];
 
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
@@ -254,6 +257,30 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           case "asana_get_tags_for_workspace": {
             const { workspace_gid, ...opts } = args;
             const response = await asanaClient.getTagsForWorkspace(workspace_gid, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_create_tag": {
+            const { workspace_gid, ...tagData } = args;
+            const response = await asanaClient.createTag(workspace_gid, tagData);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_add_tag_to_task": {
+            const { task_gid, tag_gid } = args;
+            const response = await asanaClient.addTagToTask(task_gid, tag_gid);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_remove_tag_from_task": {
+            const { task_gid, tag_gid } = args;
+            const response = await asanaClient.removeTagFromTask(task_gid, tag_gid);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };

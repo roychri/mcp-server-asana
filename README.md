@@ -223,6 +223,28 @@ Another example:
         * offset (string): Offset token. An offset to the next page returned by the API.
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: List of tags in the workspace
+23. `asana_create_tag`
+    * Create a new tag in a workspace
+    * Required input:
+        * workspace_gid (string): Globally unique identifier for the workspace or organization
+        * name (string): Name of the tag
+    * Optional input:
+        * color (string): Color of the tag. Can be one of: dark-pink, dark-green, dark-blue, dark-red, dark-teal, dark-brown, dark-orange, dark-purple, dark-warm-gray, light-pink, light-green, light-blue, light-red, light-teal, light-brown, light-orange, light-purple, light-warm-gray
+        * notes (string): Notes about the tag
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Created tag information
+24. `asana_add_tag_to_task`
+    * Add a tag to a task
+    * Required input:
+        * task_gid (string): The task GID to add the tag to
+        * tag_gid (string): The tag GID to add to the task
+    * Returns: Success response
+25. `asana_remove_tag_from_task`
+    * Remove a tag from a task
+    * Required input:
+        * task_gid (string): The task GID to remove the tag from
+        * tag_gid (string): The tag GID to remove from the task
+    * Returns: Success response
 
 ## Prompts
 

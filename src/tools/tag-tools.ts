@@ -57,3 +57,72 @@ export const getTasksForTagTool: Tool = {
     required: ["tag_gid"]
   }
 };
+
+export const createTagTool: Tool = {
+  name: "asana_create_tag",
+  description: "Create a new tag in a workspace",
+  inputSchema: {
+    type: "object",
+    properties: {
+      workspace_gid: {
+        type: "string",
+        description: "Globally unique identifier for the workspace or organization"
+      },
+      name: {
+        type: "string",
+        description: "Name of the tag"
+      },
+      color: {
+        type: "string",
+        description: "Color of the tag (optional). Can be one of: dark-pink, dark-green, dark-blue, dark-red, dark-teal, dark-brown, dark-orange, dark-purple, dark-warm-gray, light-pink, light-green, light-blue, light-red, light-teal, light-brown, light-orange, light-purple, light-warm-gray"
+      },
+      notes: {
+        type: "string",
+        description: "Notes about the tag (optional)"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["workspace_gid", "name"]
+  }
+};
+
+export const addTagToTaskTool: Tool = {
+  name: "asana_add_tag_to_task",
+  description: "Add a tag to a task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_gid: {
+        type: "string",
+        description: "The task GID to add the tag to"
+      },
+      tag_gid: {
+        type: "string",
+        description: "The tag GID to add to the task"
+      }
+    },
+    required: ["task_gid", "tag_gid"]
+  }
+};
+
+export const removeTagFromTaskTool: Tool = {
+  name: "asana_remove_tag_from_task",
+  description: "Remove a tag from a task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_gid: {
+        type: "string",
+        description: "The task GID to remove the tag from"
+      },
+      tag_gid: {
+        type: "string",
+        description: "The tag GID to remove from the task"
+      }
+    },
+    required: ["task_gid", "tag_gid"]
+  }
+};
