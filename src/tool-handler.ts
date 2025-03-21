@@ -22,7 +22,19 @@ import {
   createSubtaskTool,
   getMultipleTasksByGidTool
 } from './tools/task-tools.js';
-import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.js';
+import { 
+  getTagTool,
+  getTagsTool,
+  getTagsForTaskTool,
+  getTagsForWorkspaceTool, 
+  updateTagTool,
+  deleteTagTool,
+  getTasksForTagTool, 
+  createTagTool,
+  createTagForWorkspaceTool,
+  addTagToTaskTool, 
+  removeTagFromTaskTool 
+} from './tools/tag-tools.js';
 import {
   addTaskDependenciesTool,
   addTaskDependentsTool,
@@ -54,8 +66,17 @@ export const list_of_tools: Tool[] = [
   createProjectStatusTool,
   deleteProjectStatusTool,
   setParentForTaskTool,
-  getTasksForTagTool,
+  getTagTool,
+  getTagsTool,
+  getTagsForTaskTool,
   getTagsForWorkspaceTool,
+  updateTagTool,
+  deleteTagTool,
+  getTasksForTagTool,
+  createTagTool,
+  createTagForWorkspaceTool,
+  addTagToTaskTool,
+  removeTagFromTaskTool,
 ];
 
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
@@ -254,6 +275,77 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           case "asana_get_tags_for_workspace": {
             const { workspace_gid, ...opts } = args;
             const response = await asanaClient.getTagsForWorkspace(workspace_gid, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_create_tag": {
+            const { opt_fields, ...data } = args;
+            const response = await asanaClient.createTag(data, { opt_fields });
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_create_tag_for_workspace": {
+            const { workspace_gid, opt_fields, ...data } = args;
+            const response = await asanaClient.createTagForWorkspace(workspace_gid, data, { opt_fields });
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_add_tag_to_task": {
+            const { task_gid, tag_gid } = args;
+            const response = await asanaClient.addTagToTask(task_gid, tag_gid);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_tag": {
+            const { tag_gid, ...opts } = args;
+            const response = await asanaClient.getTag(tag_gid, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_tags": {
+            const response = await asanaClient.getTags(args);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_get_tags_for_task": {
+            const { task_gid, ...opts } = args;
+            const response = await asanaClient.getTagsForTask(task_gid, opts);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_update_tag": {
+            const { tag_gid, opt_fields, ...tagData } = args;
+            const response = await asanaClient.updateTag(tag_gid, tagData, { opt_fields });
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_delete_tag": {
+            const { tag_gid } = args;
+            const response = await asanaClient.deleteTag(tag_gid);
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          }
+
+          case "asana_remove_tag_from_task": {
+            const { task_gid, tag_gid } = args;
+            const response = await asanaClient.removeTagFromTask(task_gid, tag_gid);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
