@@ -287,14 +287,41 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async createTag(workspace_gid: string, data: any) {
-    const tagData = {
-      data: {
-        ...data,
-        workspace: workspace_gid
-      }
-    };
-    const response = await this.tags.createTag(tagData);
+  async getTag(tag_gid: string, opts: any = {}) {
+    const response = await this.tags.getTag(tag_gid, opts);
+    return response.data;
+  }
+
+  async getTags(opts: any = {}) {
+    const response = await this.tags.getTags(opts);
+    return response.data;
+  }
+
+  async getTagsForTask(task_gid: string, opts: any = {}) {
+    const response = await this.tags.getTagsForTask(task_gid, opts);
+    return response.data;
+  }
+
+  async updateTag(tag_gid: string, data: any, opts: any = {}) {
+    const body = { data };
+    const response = await this.tags.updateTag(body, tag_gid, opts);
+    return response.data;
+  }
+
+  async deleteTag(tag_gid: string) {
+    const response = await this.tags.deleteTag(tag_gid);
+    return response.data;
+  }
+
+  async createTag(data: any, opts: any = {}) {
+    const body = { data };
+    const response = await this.tags.createTag(body, opts);
+    return response.data;
+  }
+
+  async createTagForWorkspace(workspace_gid: string, data: any, opts: any = {}) {
+    const body = { data };
+    const response = await this.tags.createTagForWorkspace(body, workspace_gid, opts);
     return response.data;
   }
 
