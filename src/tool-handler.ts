@@ -1,5 +1,6 @@
 import { Tool, CallToolRequest, CallToolResult } from "@modelcontextprotocol/sdk/types.js";
 import { AsanaClientWrapper } from './asana-client-wrapper.js';
+import { validateAsanaXml } from './asana-validate-xml.js';
 
 import { listWorkspacesTool } from './tools/workspace-tools.js';
 import {
@@ -8,7 +9,7 @@ import {
   getProjectTaskCountsTool,
   getProjectSectionsTool
 } from './tools/project-tools.js';
-import { 
+import {
   getProjectStatusTool,
   getProjectStatusesForProjectTool,
   createProjectStatusTool,
@@ -107,10 +108,42 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
 
           case "asana_create_task": {
             const { project_id, ...taskData } = args;
-            const response = await asanaClient.createTask(project_id, taskData);
-            return {
-              content: [{ type: "text", text: JSON.stringify(response) }],
-            };
+            try {
+              const response = await asanaClient.createTask(project_id, taskData);
+              return {
+                content: [{ type: "text", text: JSON.stringify(response) }],
+              };
+            } catch (error) {
+              // When error occurs and html_notes was provided, validate it
+              if (taskData.html_notes && error instanceof Error && [400,500].includes( error.status ) ) {
+                const xmlValidationErrors = validateAsanaXml(taskData.html_notes);
+                if (xmlValidationErrors.length > 0) {
+                  // Provide detailed validation errors to help the user
+                  return {
+                    content: [{
+                      type: "text",
+                      text: JSON.stringify({
+                        error: error instanceof Error ? error.message : String(error),
+                        validation_errors: xmlValidationErrors,
+                        message: "The HTML notes contain invalid XML formatting. Please check the validation errors above."
+                      })
+                    }],
+                  };
+                } else {
+                  // HTML is valid, something else caused the error
+                  return {
+                    content: [{
+                      type: "text",
+                      text: JSON.stringify({
+                        error: error instanceof Error ? error.message : String(error),
+                        html_notes_validation: "The HTML notes format is valid. The error must be related to something else."
+                      })
+                    }],
+                  };
+                }
+              }
+              throw error; // re-throw to be caught by the outer try/catch
+            }
           }
 
           case "asana_get_task_stories": {
@@ -123,10 +156,42 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
 
           case "asana_update_task": {
             const { task_id, ...taskData } = args;
-            const response = await asanaClient.updateTask(task_id, taskData);
-            return {
-              content: [{ type: "text", text: JSON.stringify(response) }],
-            };
+            try {
+              const response = await asanaClient.updateTask(task_id, taskData);
+              return {
+                content: [{ type: "text", text: JSON.stringify(response) }],
+              };
+            } catch (error) {
+              // When error occurs and html_notes was provided, validate it
+              if (taskData.html_notes && error instanceof Error && error.message.includes('400')) {
+                const xmlValidationErrors = validateAsanaXml(taskData.html_notes);
+                if (xmlValidationErrors.length > 0) {
+                  // Provide detailed validation errors to help the user
+                  return {
+                    content: [{
+                      type: "text",
+                      text: JSON.stringify({
+                        error: error instanceof Error ? error.message : String(error),
+                        validation_errors: xmlValidationErrors,
+                        message: "The HTML notes contain invalid XML formatting. Please check the validation errors above."
+                      })
+                    }],
+                  };
+                } else {
+                  // HTML is valid, something else caused the error
+                  return {
+                    content: [{
+                      type: "text",
+                      text: JSON.stringify({
+                        error: error instanceof Error ? error.message : String(error),
+                        html_notes_validation: "The HTML notes format is valid. The error must be related to something else."
+                      })
+                    }],
+                  };
+                }
+              }
+              throw error; // re-throw to be caught by the outer try/catch
+            }
           }
 
           case "asana_get_project": {
@@ -186,11 +251,45 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           }
 
           case "asana_create_task_story": {
-            const { task_id, text, ...opts } = args;
-            const response = await asanaClient.createTaskStory(task_id, text, opts);
-            return {
-              content: [{ type: "text", text: JSON.stringify(response) }],
-            };
+            const { task_id, text, html_text, ...opts } = args;
+
+            try {
+              // Validate if html_text is provided
+              if (html_text) {
+                const xmlValidationErrors = validateAsanaXml(html_text);
+                if (xmlValidationErrors.length > 0) {
+                  return {
+                    content: [{
+                      type: "text",
+                      text: JSON.stringify({
+                        error: "HTML validation failed",
+                        validation_errors: xmlValidationErrors,
+                        message: "The HTML text contains invalid XML formatting. Please check the validation errors above."
+                      })
+                    }],
+                  };
+                }
+              }
+
+              const response = await asanaClient.createTaskStory(task_id, text, opts, html_text);
+              return {
+                content: [{ type: "text", text: JSON.stringify(response) }],
+              };
+            } catch (error) {
+              // When error occurs and html_text was provided, help troubleshoot
+              if (html_text && error instanceof Error && error.message.includes('400')) {
+                return {
+                  content: [{
+                    type: "text",
+                    text: JSON.stringify({
+                      error: error instanceof Error ? error.message : String(error),
+                      html_text_validation: "The HTML format is valid. The error must be related to something else in the API request."
+                    })
+                  }],
+                };
+              }
+              throw error; // re-throw to be caught by the outer try/catch
+            }
           }
 
           case "asana_add_task_dependencies": {
@@ -211,10 +310,44 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
 
           case "asana_create_subtask": {
             const { parent_task_id, opt_fields, ...taskData } = args;
-            const response = await asanaClient.createSubtask(parent_task_id, taskData, { opt_fields });
-            return {
-              content: [{ type: "text", text: JSON.stringify(response) }],
-            };
+
+            try {
+              // Validate html_notes if provided
+              if (taskData.html_notes) {
+                const xmlValidationErrors = validateAsanaXml(taskData.html_notes);
+                if (xmlValidationErrors.length > 0) {
+                  return {
+                    content: [{
+                      type: "text",
+                      text: JSON.stringify({
+                        error: "HTML validation failed",
+                        validation_errors: xmlValidationErrors,
+                        message: "The HTML notes contain invalid XML formatting. Please check the validation errors above."
+                      })
+                    }],
+                  };
+                }
+              }
+
+              const response = await asanaClient.createSubtask(parent_task_id, taskData, { opt_fields });
+              return {
+                content: [{ type: "text", text: JSON.stringify(response) }],
+              };
+            } catch (error) {
+              // When error occurs and html_notes was provided, help troubleshoot
+              if (taskData.html_notes && error instanceof Error && error.message.includes('400')) {
+                return {
+                  content: [{
+                    type: "text",
+                    text: JSON.stringify({
+                      error: error instanceof Error ? error.message : String(error),
+                      html_notes_validation: "The HTML notes format is valid. The error must be related to something else."
+                    })
+                  }],
+                };
+              }
+              throw error; // re-throw to be caught by the outer try/catch
+            }
           }
 
           case "asana_get_multiple_tasks_by_gid": {
@@ -264,13 +397,17 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
       } catch (error) {
         console.error("Error executing tool:", error);
+
+        // Default error response
+        const errorResponse = {
+          error: error instanceof Error ? error.message : String(error),
+        };
+
         return {
           content: [
             {
               type: "text",
-              text: JSON.stringify({
-                error: error instanceof Error ? error.message : String(error),
-              }),
+              text: JSON.stringify(errorResponse),
             },
           ],
         };

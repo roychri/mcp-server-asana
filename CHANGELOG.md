@@ -6,6 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 
+## [Unreleased]
+
+### Added
+- HTML validation for task creation and update: validate html_notes when API returns 400 errors
+- HTML support for task comments: added html_text parameter to createTaskStory
+
+### Changed
+- Improved error handling for HTML content validation
+
+
 ## [1.7.0] - 2025-04-07
 
 ### Added
@@ -51,6 +61,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Specify the repo url in the package.json so it shows on npmjs.com
 - Use standard format for bin location
 
+[unreleased]: https://github.com/roychri/mcp-server-asana/compare/v1.7.0..HEAD
 [1.7.0]: https://github.com/roychri/mcp-server-asana/compare/v1.6.0..v1.7.0
 [1.6.0]: https://github.com/roychri/mcp-server-asana/compare/v1.5.2...v1.6.0
 [1.5.2]: https://github.com/roychri/mcp-server-asana/compare/v1.5.1...v1.5.2

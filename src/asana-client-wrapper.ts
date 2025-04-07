@@ -197,13 +197,19 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async createTaskStory(taskId: string, text: string, opts: any = {}) {
+  async createTaskStory(taskId: string, text: string | null = null, opts: any = {}, html_text: string | null = null) {
     const options = opts.opt_fields ? opts : {};
-    const body = {
-      data: {
-        text: text
-      }
-    };
+    const data: any = {};
+
+    if (text) {
+      data.text = text;
+    } else if (html_text) {
+      data.html_text = html_text;
+    } else {
+      throw new Error("Either text or html_text must be provided");
+    }
+
+    const body = { data };
     const response = await this.stories.createStoryForTask(body, taskId, options);
     return response.data;
   }
