@@ -29,7 +29,8 @@ async function main() {
       'events',
       'buffer',
       'querystring',
-      'asana'
+      'asana',
+      'jsdom',
     ]
   });
 }

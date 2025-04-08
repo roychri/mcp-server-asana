@@ -3,7 +3,7 @@
   "publishConfig": {
     "access": "public"
   },
-  "version": "1.7.0-beta.2",
+  "version": "1.8.0-beta.1",
   "description": "MCP Server for Asana",
   "repository": {
     "type": "git",
@@ -38,9 +38,11 @@
   "devDependencies": {
     "@modelcontextprotocol/inspector": "^0.4.0",
     "@tsconfig/node20": "^20.1.4",
+    "@types/jsdom": "^21.1.7",
     "@types/node": "^22.10.1",
     "esbuild": "^0.24.0",
     "esbuild-register": "^3.6.0",
+    "jsdom": "^26.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
