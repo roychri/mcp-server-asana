@@ -25,7 +25,6 @@ import {
 } from './tools/task-tools.js';
 import {
   getTagTool,
-  getTagsTool,
   getTagsForTaskTool,
   getTagsForWorkspaceTool,
   updateTagTool,
@@ -68,7 +67,6 @@ export const list_of_tools: Tool[] = [
   deleteProjectStatusTool,
   setParentForTaskTool,
   getTagTool,
-  getTagsTool,
   getTagsForTaskTool,
   getTagsForWorkspaceTool,
   updateTagTool,
@@ -440,13 +438,6 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           case "asana_get_tag": {
             const { tag_gid, ...opts } = args;
             const response = await asanaClient.getTag(tag_gid, opts);
-            return {
-              content: [{ type: "text", text: JSON.stringify(response) }],
-            };
-          }
-
-          case "asana_get_tags": {
-            const response = await asanaClient.getTags(args);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
