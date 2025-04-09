@@ -288,8 +288,8 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async getTagsForWorkspace(workspace_gid: string, opts: any = {}) {
-    const response = await this.tags.getTagsForWorkspace(workspace_gid, opts);
+  async getTagsForWorkspace(workspace: string, opts: any = {}) {
+    const response = await this.tags.getTagsForWorkspace(workspace, opts);
     return response.data;
   }
 
@@ -320,9 +320,9 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async createTagForWorkspace(workspace_gid: string, data: any, opts: any = {}) {
+  async createTagForWorkspace(workspace: string, data: any, opts: any = {}) {
     const body = { data };
-    const response = await this.tags.createTagForWorkspace(body, workspace_gid, opts);
+    const response = await this.tags.createTagForWorkspace(body, workspace, opts);
     return response.data;
   }
 

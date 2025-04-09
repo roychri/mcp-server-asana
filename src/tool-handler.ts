@@ -404,8 +404,8 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           }
 
           case "asana_get_tags_for_workspace": {
-            const { workspace_gid, ...opts } = args;
-            const response = await asanaClient.getTagsForWorkspace(workspace_gid, opts);
+            const { workspace, ...opts } = args;
+            const response = await asanaClient.getTagsForWorkspace(workspace, opts);
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };
@@ -420,8 +420,8 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           }
 
           case "asana_create_tag_for_workspace": {
-            const { workspace_gid, opt_fields, ...data } = args;
-            const response = await asanaClient.createTagForWorkspace(workspace_gid, data, { opt_fields });
+            const { workspace, opt_fields, ...data } = args;
+            const response = await asanaClient.createTagForWorkspace(workspace, data, { opt_fields });
             return {
               content: [{ type: "text", text: JSON.stringify(response) }],
             };

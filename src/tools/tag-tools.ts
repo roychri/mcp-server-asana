@@ -8,7 +8,7 @@ export const getTagTool: Tool = {
     properties: {
       tag_gid: {
         type: "string",
-        description: "Globally unique identifier for the tag"
+        description: "The tag GID to retrieve"
       },
       opt_fields: {
         type: "string",
@@ -27,7 +27,7 @@ export const getTagsForTaskTool: Tool = {
     properties: {
       task_gid: {
         type: "string",
-        description: "The task to operate on"
+        description: "The task GID to get tags for"
       },
       limit: {
         type: "number",
@@ -54,10 +54,10 @@ export const getTagsForWorkspaceTool: Tool = {
   inputSchema: {
     type: "object",
     properties: {
-      workspace_gid: {
+      workspace: {
         type: "string",
         description:
-          "Globally unique identifier for the workspace or organization"
+          "The workspace to get tags from"
       },
       limit: {
         type: "integer",
@@ -74,7 +74,7 @@ export const getTagsForWorkspaceTool: Tool = {
         description: "Comma-separated list of optional fields to include"
       }
     },
-    required: ["workspace_gid"]
+    required: ["workspace"]
   }
 };
 
@@ -86,7 +86,7 @@ export const updateTagTool: Tool = {
     properties: {
       tag_gid: {
         type: "string",
-        description: "Globally unique identifier for the tag"
+        description: "The tag GID to update"
       },
       name: {
         type: "string",
@@ -118,7 +118,7 @@ export const deleteTagTool: Tool = {
     properties: {
       tag_gid: {
         type: "string",
-        description: "Globally unique identifier for the tag"
+        description: "The tag GID to delete"
       }
     },
     required: ["tag_gid"]
@@ -170,7 +170,7 @@ export const createTagTool: Tool = {
       workspace: {
         type: "string",
         description:
-          "Globally unique identifier for the workspace or organization"
+          "The workspace to create the tag in"
       },
       followers: {
         type: "array",
@@ -194,7 +194,7 @@ export const createTagTool: Tool = {
         description: "Comma-separated list of optional fields to include"
       }
     },
-    required: ["name"]
+    required: ["name", "workspace"]
   }
 };
 
@@ -204,10 +204,10 @@ export const createTagForWorkspaceTool: Tool = {
   inputSchema: {
     type: "object",
     properties: {
-      workspace_gid: {
+      workspace: {
         type: "string",
         description:
-          "Globally unique identifier for the workspace or organization"
+          "The workspace to create the tag in"
       },
       name: {
         type: "string",
@@ -235,7 +235,7 @@ export const createTagForWorkspaceTool: Tool = {
         description: "Comma-separated list of optional fields to include"
       }
     },
-    required: ["workspace_gid", "name"]
+    required: ["workspace", "name"]
   }
 };
 

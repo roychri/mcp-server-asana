@@ -207,14 +207,14 @@ Another example:
 21. `asana_get_tag`
     * Get detailed information about a specific tag
     * Required input:
-        * tag_gid (string): Globally unique identifier for the tag
+        * tag_gid (string): The tag GID to retrieve
     * Optional input:
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Detailed tag information
 22. `asana_get_tags_for_task`
     * Get a task's tags
     * Required input:
-        * task_gid (string): The task to operate on
+        * task_gid (string): The task GID to get tags for
     * Optional input:
         * limit (number): Results per page. The number of objects to return per page. The value must be between 1 and 100.
         * offset (string): Offset token. An offset to the next page returned by the API.
@@ -233,7 +233,7 @@ Another example:
 24. `asana_get_tags_for_workspace`
     * Get tags in a workspace
     * Required input:
-        * workspace_gid (string): Globally unique identifier for the workspace or organization
+        * workspace (string): The workspace to get tags from
     * Optional input:
         * limit (integer): Results per page. The number of objects to return per page. The value must be between 1 and 100.
         * offset (string): Offset token. An offset to the next page returned by the API.
@@ -242,7 +242,7 @@ Another example:
 25. `asana_update_tag`
     * Update an existing tag
     * Required input:
-        * tag_gid (string): Globally unique identifier for the tag
+        * tag_gid (string): The tag GID to update
     * Optional input:
         * name (string): Name of the tag
         * color (string): Color of the tag. Can be one of: dark-pink, dark-green, dark-blue, dark-red, dark-teal, dark-brown, dark-orange, dark-purple, dark-warm-gray, light-pink, light-green, light-blue, light-red, light-teal, light-brown, light-orange, light-purple, light-warm-gray
@@ -252,14 +252,14 @@ Another example:
 26. `asana_delete_tag`
     * Delete a tag
     * Required input:
-        * tag_gid (string): Globally unique identifier for the tag
+        * tag_gid (string): The tag GID to delete
     * Returns: Deletion confirmation
 27. `asana_create_tag`
     * Create a new tag in a workspace or organization
     * Required input:
         * name (string): Name of the tag
+        * workspace (string): The workspace to create the tag in
     * Optional input:
-        * workspace (string): Globally unique identifier for the workspace or organization
         * followers (array of strings): Array of strings identifying users. These can either be the string "me", an email, or the gid of a user.
         * color (string): Color of the tag. Can be one of: dark-pink, dark-green, dark-blue, dark-red, dark-teal, dark-brown, dark-orange, dark-purple, dark-warm-gray, light-pink, light-green, light-blue, light-red, light-teal, light-brown, light-orange, light-purple, light-warm-gray
         * notes (string): Notes about the tag
@@ -268,7 +268,7 @@ Another example:
 28. `asana_create_tag_for_workspace`
     * Create a new tag in a workspace
     * Required input:
-        * workspace_gid (string): Globally unique identifier for the workspace or organization
+        * workspace (string): The workspace to create the tag in
         * name (string): Name of the tag
     * Optional input:
         * color (string): Color of the tag. Can be one of: dark-pink, dark-green, dark-blue, dark-red, dark-teal, dark-brown, dark-orange, dark-purple, dark-warm-gray, light-pink, light-green, light-blue, light-red, light-teal, light-brown, light-orange, light-purple, light-warm-gray
