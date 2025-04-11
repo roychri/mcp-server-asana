@@ -13,6 +13,15 @@ More details on MCP here:
 
 <a href="https://glama.ai/mcp/servers/ln1qzdhwmc"><img width="380" height="200" src="https://glama.ai/mcp/servers/ln1qzdhwmc/badge" alt="mcp-server-asana MCP server" /></a>
 
+## Environment Variables
+
+- `ASANA_ACCESS_TOKEN`: (Required) Your Asana access token
+- `READ_ONLY_MODE`: (Optional) Set to 'true' to disable all write operations. In this mode:
+  - Tools that modify Asana data (create, update, delete) will be disabled
+  - The `create-task` prompt will be disabled
+  - Only read operations will be available
+  This is useful for testing or when you want to ensure no changes can be made to your Asana workspace.
+
 ## Usage
 
 In the AI tool of your choice (ex: Claude Desktop) ask something about asana tasks, projects, workspaces, and/or comments. Mentioning the word "asana" will increase the chance of having the LLM pick the right tool.
