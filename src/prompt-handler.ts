@@ -67,17 +67,34 @@ const PROMPTS: Record<string, PromptDefinition> = {
   }
 };
 
+// List of prompts that only read Asana state
+const READ_ONLY_PROMPTS = [
+  'task-summary',
+  'task-completeness'
+];
+
+// Filter prompts based on READ_ONLY_MODE
+const isReadOnlyMode = process.env.READ_ONLY_MODE === 'true';
+
 export function createPromptHandlers(asanaClient: AsanaClientWrapper): PromptHandler {
   return {
     listPrompts: async (): Promise<ListPromptsResult> => {
       console.error("Received ListPromptsRequest");
+      const availablePrompts = isReadOnlyMode
+        ? Object.values(PROMPTS).filter(prompt => READ_ONLY_PROMPTS.includes(prompt.name))
+        : Object.values(PROMPTS);
       return {
-        prompts: Object.values(PROMPTS)
+        prompts: availablePrompts
       };
     },
 
     getPrompt: async (request: GetPromptRequest): Promise<GetPromptResult> => {
       console.error("Received GetPromptRequest:", request);
+
+      // Block non-read prompts in read-only mode
+      if (isReadOnlyMode && !READ_ONLY_PROMPTS.includes(request.params.name)) {
+        throw new Error(`Prompt ${request.params.name} is not available in read-only mode`);
+      }
 
       const prompt = PROMPTS[request.params.name];
       if (!prompt) {
@@ -114,13 +131,13 @@ Task Notes:
 ${task.notes || "No notes"}
 
 Custom Fields:
-${task.custom_fields?.map((field: {name: string; display_value: string}) =>
-  `${field.name}: ${field.display_value}`).join('\n') || "No custom fields"}
+${task.custom_fields?.map((field: { name: string; display_value: string }) =>
+                  `${field.name}: ${field.display_value}`).join('\n') || "No custom fields"}
 
 Comments/Updates (from newest to oldest):
-${stories.map((story: {created_at: string; text: string}) =>
-  `[${new Date(story.created_at).toLocaleString()}] ${story.text}`
-).join('\n\n') || "No comments"}
+${stories.map((story: { created_at: string; text: string }) =>
+                    `[${new Date(story.created_at).toLocaleString()}] ${story.text}`
+                  ).join('\n\n') || "No comments"}
 
 Please include:
 1. Current status and progress
@@ -191,11 +208,11 @@ Task: ${taskId}
         const projectName = request.params.arguments?.project_name;
         const title = request.params.arguments?.title;
 
-        if (!projectName ) {
+        if (!projectName) {
           throw new Error("Project ID is required");
         }
 
-        if (!title ) {
+        if (!title) {
           throw new Error("Task title is required");
         }
 

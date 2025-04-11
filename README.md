@@ -16,7 +16,11 @@ More details on MCP here:
 ## Environment Variables
 
 - `ASANA_ACCESS_TOKEN`: (Required) Your Asana access token
-- `READ_ONLY_MODE`: (Optional) Set to 'true' to disable all write operations. In this mode, tools that modify Asana data (create, update, delete) will be disabled. This is useful for testing or when you want to ensure no changes can be made to your Asana workspace.
+- `READ_ONLY_MODE`: (Optional) Set to 'true' to disable all write operations. In this mode:
+  - Tools that modify Asana data (create, update, delete) will be disabled
+  - The `create-task` prompt will be disabled
+  - Only read operations will be available
+  This is useful for testing or when you want to ensure no changes can be made to your Asana workspace.
 
 ## Usage
 
