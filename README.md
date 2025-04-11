@@ -295,7 +295,9 @@ Another example:
      - https://app.asana.com/0/my-apps
    - More details here: https://developers.asana.com/docs/personal-access-token
 
-3. **Configure Claude Desktop**:
+3. **Installation Options**:
+
+   ### For Claude Desktop:
    Add the following to your `claude_desktop_config.json`:
 
    ```json
@@ -311,6 +313,16 @@ Another example:
      }
    }
    ```
+   
+   ### For Claude Code:
+   
+   Use the following command to install and configure the MCP server:
+   
+   ```bash
+   claude mcp add asana -e ASANA_ACCESS_TOKEN=<TOKEN> -- npx -y @roychri/mcp-server-asana
+   ```
+   
+   Replace `<TOKEN>` with your Asana access token.
 
 If you want to install the beta version (not yet released), you can use:
 
