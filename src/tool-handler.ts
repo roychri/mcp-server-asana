@@ -34,7 +34,8 @@ import {
   createTaskStoryTool
 } from './tools/story-tools.js';
 
-export const list_of_tools: Tool[] = [
+// List of all available tools
+const all_tools: Tool[] = [
   listWorkspacesTool,
   searchProjectsTool,
   searchTasksTool,
@@ -59,12 +60,42 @@ export const list_of_tools: Tool[] = [
   getTagsForWorkspaceTool,
 ];
 
+// List of tools that only read Asana state
+const READ_ONLY_TOOLS = [
+  'asana_list_workspaces',
+  'asana_search_projects',
+  'asana_search_tasks',
+  'asana_get_task',
+  'asana_get_task_stories',
+  'asana_get_project',
+  'asana_get_project_task_counts',
+  'asana_get_project_status',
+  'asana_get_project_statuses',
+  'asana_get_project_sections',
+  'asana_get_multiple_tasks_by_gid',
+  'asana_get_tasks_for_tag',
+  'asana_get_tags_for_workspace'
+];
+
+// Filter tools based on READ_ONLY_MODE
+const isReadOnlyMode = process.env.READ_ONLY_MODE === 'true';
+
+// Export filtered list of tools
+export const list_of_tools = isReadOnlyMode
+  ? all_tools.filter(tool => READ_ONLY_TOOLS.includes(tool.name))
+  : all_tools;
+
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
   return async (request: CallToolRequest) => {
     console.error("Received CallToolRequest:", request);
     try {
       if (!request.params.arguments) {
         throw new Error("No arguments provided");
+      }
+
+      // Block non-read operations in read-only mode
+      if (isReadOnlyMode && !READ_ONLY_TOOLS.includes(request.params.name)) {
+        throw new Error(`Tool ${request.params.name} is not available in read-only mode`);
       }
 
       const args = request.params.arguments as any;
