@@ -1,3 +1,5 @@
+[![MseeP.ai Security Assessment Badge](https://mseep.net/pr/roychri-mcp-server-asana-badge.png)](https://mseep.ai/app/roychri-mcp-server-asana)
+
 # MCP Server for Asana
 
 [![npm version](https://badge.fury.io/js/%40roychri%2Fmcp-server-asana.svg)](https://www.npmjs.com/package/@roychri/mcp-server-asana)
