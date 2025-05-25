@@ -23,18 +23,18 @@ import {
   createSubtaskTool,
   getMultipleTasksByGidTool
 } from './tools/task-tools.js';
-import { 
+import {
   getTagTool,
   getTagsTool,
   getTagsForTaskTool,
-  getTagsForWorkspaceTool, 
+  getTagsForWorkspaceTool,
   updateTagTool,
   deleteTagTool,
-  getTasksForTagTool, 
+  getTasksForTagTool,
   createTagTool,
   createTagForWorkspaceTool,
-  addTagToTaskTool, 
-  removeTagFromTaskTool 
+  addTagToTaskTool,
+  removeTagFromTaskTool
 } from './tools/tag-tools.js';
 import {
   addTaskDependenciesTool,
