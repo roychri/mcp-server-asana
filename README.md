@@ -220,15 +220,7 @@ Another example:
     * Optional input:
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Detailed tag information
-22. `asana_get_tags`
-    * Get multiple tags with filtering options
-    * Optional input:
-        * limit (number): Results per page. The number of objects to return per page. The value must be between 1 and 100.
-        * offset (string): Offset token. An offset to the next page returned by the API.
-        * workspace (string): The workspace to filter tags on
-        * opt_fields (string): Comma-separated list of optional fields to include
-    * Returns: List of tags matching the filter criteria
-23. `asana_get_tags_for_task`
+22. `asana_get_tags_for_task`
     * Get a task's tags
     * Required input:
         * task_gid (string): The task to operate on
@@ -237,7 +229,7 @@ Another example:
         * offset (string): Offset token. An offset to the next page returned by the API.
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: List of tags associated with the task
-24. `asana_get_tasks_for_tag`
+23. `asana_get_tasks_for_tag`
     * Get tasks for a specific tag
     * Required input:
         * tag_gid (string): The tag GID to retrieve tasks for
@@ -247,7 +239,7 @@ Another example:
         * limit (integer): The number of objects to return per page. The value must be between 1 and 100.
         * offset (string): An offset to the next page returned by the API.
     * Returns: List of tasks for the specified tag
-25. `asana_get_tags_for_workspace`
+24. `asana_get_tags_for_workspace`
     * Get tags in a workspace
     * Required input:
         * workspace_gid (string): Globally unique identifier for the workspace or organization
@@ -256,7 +248,7 @@ Another example:
         * offset (string): Offset token. An offset to the next page returned by the API.
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: List of tags in the workspace
-26. `asana_update_tag`
+25. `asana_update_tag`
     * Update an existing tag
     * Required input:
         * tag_gid (string): Globally unique identifier for the tag
@@ -266,12 +258,12 @@ Another example:
         * notes (string): Notes about the tag
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Updated tag information
-27. `asana_delete_tag`
+26. `asana_delete_tag`
     * Delete a tag
     * Required input:
         * tag_gid (string): Globally unique identifier for the tag
     * Returns: Deletion confirmation
-28. `asana_create_tag`
+27. `asana_create_tag`
     * Create a new tag in a workspace or organization
     * Required input:
         * name (string): Name of the tag
@@ -282,7 +274,7 @@ Another example:
         * notes (string): Notes about the tag
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Created tag information
-29. `asana_create_tag_for_workspace`
+28. `asana_create_tag_for_workspace`
     * Create a new tag in a workspace
     * Required input:
         * workspace_gid (string): Globally unique identifier for the workspace or organization
@@ -292,13 +284,13 @@ Another example:
         * notes (string): Notes about the tag
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Created tag information
-30. `asana_add_tag_to_task`
+29. `asana_add_tag_to_task`
     * Add a tag to a task
     * Required input:
         * task_gid (string): The task GID to add the tag to
         * tag_gid (string): The tag GID to add to the task
     * Returns: Success response
-31. `asana_remove_tag_from_task`
+30. `asana_remove_tag_from_task`
     * Remove a tag from a task
     * Required input:
         * task_gid (string): The task GID to remove the tag from

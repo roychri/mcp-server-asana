@@ -298,10 +298,6 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async getTags(opts: any = {}) {
-    const response = await this.tags.getTags(opts);
-    return response.data;
-  }
 
   async getTagsForTask(task_gid: string, opts: any = {}) {
     const response = await this.tags.getTagsForTask(task_gid, opts);

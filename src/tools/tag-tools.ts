@@ -19,33 +19,6 @@ export const getTagTool: Tool = {
   },
 };
 
-export const getTagsTool: Tool = {
-  name: "asana_get_tags",
-  description: "Get multiple tags with filtering options",
-  inputSchema: {
-    type: "object",
-    properties: {
-      limit: {
-        type: "number",
-        description:
-          "Results per page. The number of objects to return per page. The value must be between 1 and 100.",
-      },
-      offset: {
-        type: "string",
-        description:
-          "Offset token. An offset to the next page returned by the API. A pagination request will return an offset token, which can be used as an input parameter to the next request. If an offset is not passed in, the API will return the first page of results.",
-      },
-      workspace: {
-        type: "string",
-        description: "The workspace to filter tags on",
-      },
-      opt_fields: {
-        type: "string",
-        description: "Comma-separated list of optional fields to include",
-      },
-    },
-  },
-};
 
 export const getTagsForTaskTool: Tool = {
   name: "asana_get_tags_for_task",
