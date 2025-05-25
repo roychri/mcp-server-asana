@@ -222,7 +222,7 @@ export const createTagTool: Tool = {
         description: "Comma-separated list of optional fields to include",
       },
     },
-    required: ["name"],
+    required: ["name", "workspace"],
   },
 };
 

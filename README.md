@@ -275,8 +275,8 @@ Another example:
     * Create a new tag in a workspace or organization
     * Required input:
         * name (string): Name of the tag
-    * Optional input:
         * workspace (string): Globally unique identifier for the workspace or organization
+    * Optional input:
         * followers (array of strings): Array of strings identifying users. These can either be the string "me", an email, or the gid of a user.
         * color (string): Color of the tag. Can be one of: dark-pink, dark-green, dark-blue, dark-red, dark-teal, dark-brown, dark-orange, dark-purple, dark-warm-gray, light-pink, light-green, light-blue, light-red, light-teal, light-brown, light-orange, light-purple, light-warm-gray
         * notes (string): Notes about the tag
