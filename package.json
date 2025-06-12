@@ -1,15 +1,15 @@
 {
-  "name": "@roychri/mcp-server-asana",
+  "name": "@iret-datalake/mcp-server-asana",
   "publishConfig": {
     "access": "public"
   },
   "version": "1.8.0-beta.1",
-  "description": "MCP Server for Asana",
+  "description": "MCP Server for Asana (Forked Repository)",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/roychri/mcp-server-asana.git"
+    "url": "git+https://github.com/iret-datalake/mcp-server-asana.git"
   },
-  "homepage": "https://github.com/roychri/mcp-server-asana?tab=readme-ov-file#mcp-server-for-asana",
+  "homepage": "https://github.com/iret-datalake/mcp-server-asana?tab=readme-ov-file#mcp-server-for-asana",
   "main": "dist/index.js",
   "type": "module",
   "bin": {
@@ -31,9 +31,10 @@
   "keywords": [
     "asana",
     "mcp",
-    "anthropic"
+    "anthropic",
+    "fork"
   ],
-  "author": "Christian Roy",
+  "author": "Christian Roy (Original Author), Fork Maintainer",
   "license": "MIT",
   "devDependencies": {
     "@modelcontextprotocol/inspector": "^0.4.0",

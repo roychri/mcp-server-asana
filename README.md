@@ -1,3 +1,16 @@
+## Fork Information
+
+This repository is a fork of the original [mcp-server-asana](https://github.com/roychri/mcp-server-asana) repository. While the original repository was created by Christian Roy, this fork includes modifications and updates to suit specific requirements.
+
+### Attribution
+
+- Original Author: Christian Roy
+- Original Repository: [mcp-server-asana](https://github.com/roychri/mcp-server-asana)
+
+### License
+
+This project is licensed under the MIT License, which permits redistribution and modification. Please ensure compliance with the license terms when using or distributing this fork.
+
 # MCP Server for Asana
 
 [![npm version](https://badge.fury.io/js/%40roychri%2Fmcp-server-asana.svg)](https://www.npmjs.com/package/@roychri/mcp-server-asana)
