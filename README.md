@@ -232,6 +232,24 @@ Another example:
         * offset (string): Offset token. An offset to the next page returned by the API.
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: List of tags in the workspace
+23. `asana_add_project_to_task`
+    * Add an existing task to a project
+    * Required input:
+        * task_id (string): The task ID to add to the project
+        * project_id (string): The project ID to add the task to
+    * Optional input:
+        * section (string): The section ID to add the task to within the project
+        * insert_after (string): A task ID to insert this task after. At most one of insert_before, insert_after, or section should be specified.
+        * insert_before (string): A task ID to insert this task before. At most one of insert_before, insert_after, or section should be specified.
+    * Returns: Updated task information
+    * Notes: If no positioning arguments are given, the task will be added to the end of the project
+24. `asana_remove_project_from_task`
+    * Remove a task from a project
+    * Required input:
+        * task_id (string): The task ID to remove from the project
+        * project_id (string): The project ID to remove the task from
+    * Returns: Updated task information
+    * Notes: The task will still exist in the system, but it will not be in the project anymore
 
 ## Prompts
 

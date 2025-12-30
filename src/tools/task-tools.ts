@@ -434,3 +434,53 @@ export const getMultipleTasksByGidTool: Tool = {
   }
 };
 
+export const addProjectToTaskTool: Tool = {
+  name: "asana_add_project_to_task",
+  description: "Add an existing task to a project. If no positioning arguments are given, the task will be added to the end of the project.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to add to the project"
+      },
+      project_id: {
+        type: "string",
+        description: "The project ID to add the task to"
+      },
+      section: {
+        type: "string",
+        description: "Optional: The section ID to add the task to within the project"
+      },
+      insert_after: {
+        type: "string",
+        description: "Optional: A task ID to insert this task after. At most one of insert_before, insert_after, or section should be specified."
+      },
+      insert_before: {
+        type: "string",
+        description: "Optional: A task ID to insert this task before. At most one of insert_before, insert_after, or section should be specified."
+      }
+    },
+    required: ["task_id", "project_id"]
+  }
+};
+
+export const removeProjectFromTaskTool: Tool = {
+  name: "asana_remove_project_from_task",
+  description: "Remove a task from a project. The task will still exist in the system, but it will not be in the project anymore.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to remove from the project"
+      },
+      project_id: {
+        type: "string",
+        description: "The project ID to remove the task from"
+      }
+    },
+    required: ["task_id", "project_id"]
+  }
+};
+

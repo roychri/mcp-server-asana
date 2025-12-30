@@ -21,7 +21,9 @@ import {
   createTaskTool,
   updateTaskTool,
   createSubtaskTool,
-  getMultipleTasksByGidTool
+  getMultipleTasksByGidTool,
+  addProjectToTaskTool,
+  removeProjectFromTaskTool
 } from './tools/task-tools.js';
 import { getTasksForTagTool, getTagsForWorkspaceTool } from './tools/tag-tools.js';
 import {
@@ -58,6 +60,8 @@ const all_tools: Tool[] = [
   setParentForTaskTool,
   getTasksForTagTool,
   getTagsForWorkspaceTool,
+  addProjectToTaskTool,
+  removeProjectFromTaskTool,
 ];
 
 // List of tools that only read Asana state
@@ -418,6 +422,27 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         case "asana_get_tags_for_workspace": {
           const { workspace_gid, ...opts } = args;
           const response = await asanaClient.getTagsForWorkspace(workspace_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_add_project_to_task": {
+          const { task_id, project_id, section, insert_after, insert_before } = args;
+          const data: any = {};
+          if (section) data.section = section;
+          if (insert_after) data.insert_after = insert_after;
+          if (insert_before) data.insert_before = insert_before;
+
+          const response = await asanaClient.addProjectToTask(task_id, project_id, data);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_remove_project_from_task": {
+          const { task_id, project_id } = args;
+          const response = await asanaClient.removeProjectFromTask(task_id, project_id);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };

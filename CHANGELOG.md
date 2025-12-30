@@ -11,6 +11,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Added
 - HTML validation for task creation and update: validate html_notes when API returns 400 errors
 - HTML support for task comments: added html_text parameter to createTaskStory
+- Project management tools: `asana_add_project_to_task` and `asana_remove_project_from_task` for moving tasks between projects
+- Support for positioning tasks when adding to projects (section, insert_after, insert_before)
 
 ### Changed
 - Improved error handling for HTML content validation

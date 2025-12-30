@@ -292,4 +292,36 @@ export class AsanaClientWrapper {
     const response = await this.tags.getTagsForWorkspace(workspace_gid, opts);
     return response.data;
   }
+
+  async addProjectToTask(taskId: string, projectId: string, data: any = {}) {
+    const body: any = {
+      data: {
+        project: projectId
+      }
+    };
+
+    // Add optional positioning parameters if provided
+    if (data.section) {
+      body.data.section = data.section;
+    }
+    if (data.insert_after) {
+      body.data.insert_after = data.insert_after;
+    }
+    if (data.insert_before) {
+      body.data.insert_before = data.insert_before;
+    }
+
+    const response = await this.tasks.addProjectForTask(body, taskId);
+    return response.data;
+  }
+
+  async removeProjectFromTask(taskId: string, projectId: string) {
+    const body = {
+      data: {
+        project: projectId
+      }
+    };
+    const response = await this.tasks.removeProjectForTask(body, taskId);
+    return response.data;
+  }
 }
