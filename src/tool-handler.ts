@@ -21,7 +21,9 @@ import {
   createTaskTool,
   updateTaskTool,
   createSubtaskTool,
-  getMultipleTasksByGidTool
+  getMultipleTasksByGidTool,
+  addProjectToTaskTool,
+  removeProjectFromTaskTool
 } from './tools/task-tools.js';
 import {
   getTagTool,
@@ -75,6 +77,8 @@ const all_tools: Tool[] = [
   createTagForWorkspaceTool,
   addTagToTaskTool,
   removeTagFromTaskTool,
+  addProjectToTaskTool,
+  removeProjectFromTaskTool,
 ];
 
 // List of tools that only read Asana state
@@ -496,6 +500,30 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           const response = await asanaClient.removeTagFromTask(task_gid, tag_gid);
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_add_project_to_task": {
+          const { task_id, project_id, section, insert_after, insert_before } = args;
+          const data: any = {};
+          if (section) data.section = section;
+          if (insert_after) data.insert_after = insert_after;
+          if (insert_before) data.insert_before = insert_before;
+
+          await asanaClient.addProjectToTask(task_id, project_id, data);
+          const message = `Successfully added task ${task_id} to project ${project_id}` +
+            (section ? ` in section ${section}` : '');
+          return {
+            content: [{ type: "text", text: message }],
+          };
+        }
+
+        case "asana_remove_project_from_task": {
+          const { task_id, project_id } = args;
+          await asanaClient.removeProjectFromTask(task_id, project_id);
+          const message = `Successfully removed task ${task_id} from project ${project_id}`;
+          return {
+            content: [{ type: "text", text: message }],
           };
         }
 

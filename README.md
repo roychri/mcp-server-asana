@@ -285,6 +285,24 @@ Another example:
         * task_gid (string): The task GID to remove the tag from
         * tag_gid (string): The tag GID to remove from the task
     * Returns: Success response
+30. `asana_add_project_to_task`
+    * Add an existing task to a project
+    * Required input:
+        * task_id (string): The task ID to add to the project
+        * project_id (string): The project ID to add the task to
+    * Optional input:
+        * section (string): The section ID to add the task to within the project
+        * insert_after (string): A task ID to insert this task after. At most one of insert_before, insert_after, or section should be specified.
+        * insert_before (string): A task ID to insert this task before. At most one of insert_before, insert_after, or section should be specified.
+    * Returns: Success message confirming the task was added to the project
+    * Notes: If no positioning arguments are given, the task will be added to the end of the project
+31. `asana_remove_project_from_task`
+    * Remove a task from a project
+    * Required input:
+        * task_id (string): The task ID to remove from the project
+        * project_id (string): The project ID to remove the task from
+    * Returns: Success message confirming the task was removed from the project
+    * Notes: The task will still exist in the system, but it will not be in the project anymore
 
 ## Prompts
 
