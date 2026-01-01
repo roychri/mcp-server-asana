@@ -92,6 +92,8 @@ const READ_ONLY_TOOLS = [
   'asana_get_project_statuses',
   'asana_get_project_sections',
   'asana_get_multiple_tasks_by_gid',
+  'asana_get_tag',
+  'asana_get_tags_for_task',
   'asana_get_tasks_for_tag',
   'asana_get_tags_for_workspace'
 ];
