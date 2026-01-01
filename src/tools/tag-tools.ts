@@ -19,7 +19,6 @@ export const getTagTool: Tool = {
   },
 };
 
-
 export const getTagsForTaskTool: Tool = {
   name: "asana_get_tags_for_task",
   description: "Get a task's tags",
@@ -155,47 +154,6 @@ export const getTasksForTagTool: Tool = {
       },
     },
     required: ["tag_gid"],
-  },
-};
-
-export const createTagTool: Tool = {
-  name: "asana_create_tag",
-  description: "Create a new tag in a workspace or organization",
-  inputSchema: {
-    type: "object",
-    properties: {
-      name: {
-        type: "string",
-        description: "Name of the tag",
-      },
-      workspace: {
-        type: "string",
-        description:
-          "Globally unique identifier for the workspace or organization",
-      },
-      followers: {
-        type: "array",
-        items: {
-          type: "string",
-        },
-        description:
-          "An array of strings identifying users. These can either be the string \"me\", an email, or the gid of a user.",
-      },
-      color: {
-        type: "string",
-        description:
-          "Color of the tag (optional). Can be one of: dark-pink, dark-green, dark-blue, dark-red, dark-teal, dark-brown, dark-orange, dark-purple, dark-warm-gray, light-pink, light-green, light-blue, light-red, light-teal, light-brown, light-orange, light-purple, light-warm-gray",
-      },
-      notes: {
-        type: "string",
-        description: "Notes about the tag (optional)",
-      },
-      opt_fields: {
-        type: "string",
-        description: "Comma-separated list of optional fields to include",
-      },
-    },
-    required: ["name", "workspace"],
   },
 };
 

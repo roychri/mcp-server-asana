@@ -298,7 +298,6 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-
   async getTagsForTask(task_gid: string, opts: any = {}) {
     const response = await this.tags.getTagsForTask(task_gid, opts);
     return response.data;
@@ -312,12 +311,6 @@ export class AsanaClientWrapper {
 
   async deleteTag(tag_gid: string) {
     const response = await this.tags.deleteTag(tag_gid);
-    return response.data;
-  }
-
-  async createTag(data: any, opts: any = {}) {
-    const body = { data };
-    const response = await this.tags.createTag(body, opts);
     return response.data;
   }
 

@@ -30,7 +30,6 @@ import {
   updateTagTool,
   deleteTagTool,
   getTasksForTagTool,
-  createTagTool,
   createTagForWorkspaceTool,
   addTagToTaskTool,
   removeTagFromTaskTool
@@ -73,7 +72,6 @@ const all_tools: Tool[] = [
   updateTagTool,
   deleteTagTool,
   getTasksForTagTool,
-  createTagTool,
   createTagForWorkspaceTool,
   addTagToTaskTool,
   removeTagFromTaskTool,
@@ -456,14 +454,6 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         case "asana_get_tags_for_workspace": {
           const { workspace_gid, ...opts } = args;
           const response = await asanaClient.getTagsForWorkspace(workspace_gid, opts);
-          return {
-            content: [{ type: "text", text: JSON.stringify(response) }],
-          };
-        }
-
-        case "asana_create_tag": {
-          const { opt_fields, ...data } = args;
-          const response = await asanaClient.createTag(data, { opt_fields });
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
