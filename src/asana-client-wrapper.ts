@@ -58,6 +58,57 @@ export class AsanaClientWrapper {
       ...otherOpts // Include any additional filter parameters
     };
 
+    // Map underscore parameter names to dot-notation for Asana API
+    // (e.g., sections_all -> sections.all)
+    const keyMappings: { [key: string]: string } = {
+      portfolios_any: 'portfolios.any',
+      assignee_any: 'assignee.any',
+      assignee_not: 'assignee.not',
+      projects_any: 'projects.any',
+      projects_not: 'projects.not',
+      projects_all: 'projects.all',
+      sections_any: 'sections.any',
+      sections_not: 'sections.not',
+      sections_all: 'sections.all',
+      tags_any: 'tags.any',
+      tags_not: 'tags.not',
+      tags_all: 'tags.all',
+      teams_any: 'teams.any',
+      followers_any: 'followers.any',
+      followers_not: 'followers.not',
+      created_by_any: 'created_by.any',
+      created_by_not: 'created_by.not',
+      assigned_by_any: 'assigned_by.any',
+      assigned_by_not: 'assigned_by.not',
+      liked_by_not: 'liked_by.not',
+      commented_on_by_not: 'commented_on_by.not',
+      due_on_before: 'due_on.before',
+      due_on_after: 'due_on.after',
+      due_at_before: 'due_at.before',
+      due_at_after: 'due_at.after',
+      start_on_before: 'start_on.before',
+      start_on_after: 'start_on.after',
+      created_on_before: 'created_on.before',
+      created_on_after: 'created_on.after',
+      created_at_before: 'created_at.before',
+      created_at_after: 'created_at.after',
+      completed_on_before: 'completed_on.before',
+      completed_on_after: 'completed_on.after',
+      completed_at_before: 'completed_at.before',
+      completed_at_after: 'completed_at.after',
+      modified_on_before: 'modified_on.before',
+      modified_on_after: 'modified_on.after',
+      modified_at_before: 'modified_at.before',
+      modified_at_after: 'modified_at.after',
+    };
+
+    for (const [underscoreKey, dotKey] of Object.entries(keyMappings)) {
+      if (searchParams[underscoreKey] !== undefined) {
+        searchParams[dotKey] = searchParams[underscoreKey];
+        delete searchParams[underscoreKey];
+      }
+    }
+
     // Handle custom fields if provided
     if (searchOpts.custom_fields) {
       if ( typeof searchOpts.custom_fields == "string" ) {
