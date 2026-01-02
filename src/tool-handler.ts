@@ -307,10 +307,21 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         case "asana_create_task_story": {
           const { task_id, text, html_text, ...opts } = args;
 
+          // Track if we need to warn about both parameters being provided
+          let warning: string | null = null;
+          let effectiveText = text;
+          let effectiveHtmlText = html_text;
+
+          // If both are provided, prefer html_text and warn
+          if (text && html_text) {
+            warning = "Warning: Both 'text' and 'html_text' were provided. The Asana API does not support both simultaneously. Using 'html_text' and ignoring 'text'. Use 'html_text' for formatted content with @mentions, links, and styling. Use 'text' for plain text comments.";
+            effectiveText = null;
+          }
+
           try {
             // Validate if html_text is provided
-            if (html_text) {
-              const xmlValidationErrors = validateAsanaXml(html_text);
+            if (effectiveHtmlText) {
+              const xmlValidationErrors = validateAsanaXml(effectiveHtmlText);
               if (xmlValidationErrors.length > 0) {
                 return {
                   content: [{
@@ -325,9 +336,12 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               }
             }
 
-            const response = await asanaClient.createTaskStory(task_id, text, opts, html_text);
+            const response = await asanaClient.createTaskStory(task_id, effectiveText, opts, effectiveHtmlText);
+            const result = warning
+              ? { warning, result: response }
+              : response;
             return {
-              content: [{ type: "text", text: JSON.stringify(response) }],
+              content: [{ type: "text", text: JSON.stringify(result) }],
             };
           } catch (error) {
             // When error occurs and html_text was provided, help troubleshoot
