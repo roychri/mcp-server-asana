@@ -309,6 +309,19 @@ Another example:
         * task_id (string): The task ID to delete
     * Returns: Success message confirming the task was deleted
     * Notes: This action cannot be undone. The task will be permanently removed.
+33. `asana_create_project`
+    * Create a new project in a workspace or team
+    * Required input:
+        * workspace (string): The workspace GID to create the project in
+        * name (string): Name of the project
+    * Optional input:
+        * team (string): The team GID (required for organization workspaces)
+        * notes (string): Description or notes for the project
+        * color (string): Color of the project (e.g., dark-pink, dark-green, light-blue)
+        * privacy_setting (string): Privacy setting (public_to_workspace, private_to_team, private)
+        * default_view (string): Default view (list, board, calendar, timeline)
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: The created project object
 
 ## Prompts
 

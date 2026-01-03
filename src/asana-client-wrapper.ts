@@ -248,6 +248,13 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
+  async createProject(data: any, opts: any = {}) {
+    const options = opts.opt_fields ? opts : {};
+    const body = { data };
+    const response = await this.projects.createProject(body, options);
+    return response.data;
+  }
+
   async createTaskStory(taskId: string, text: string | null = null, opts: any = {}, html_text: string | null = null) {
     const options = opts.opt_fields ? opts : {};
     const data: any = {};

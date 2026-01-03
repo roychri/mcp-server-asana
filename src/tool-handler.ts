@@ -7,7 +7,8 @@ import {
   searchProjectsTool,
   getProjectTool,
   getProjectTaskCountsTool,
-  getProjectSectionsTool
+  getProjectSectionsTool,
+  createProjectTool
 } from './tools/project-tools.js';
 import {
   getProjectStatusTool,
@@ -59,6 +60,7 @@ const all_tools: Tool[] = [
   getProjectTool,
   getProjectTaskCountsTool,
   getProjectSectionsTool,
+  createProjectTool,
   createTaskStoryTool,
   addTaskDependenciesTool,
   addTaskDependentsTool,
@@ -301,6 +303,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         case "asana_get_project_sections": {
           const { project_id, ...opts } = args;
           const response = await asanaClient.getProjectSections(project_id, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_create_project": {
+          const { opt_fields, ...data } = args;
+          const response = await asanaClient.createProject(data, { opt_fields });
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };
