@@ -303,6 +303,12 @@ Another example:
         * project_id (string): The project ID to remove the task from
     * Returns: Success message confirming the task was removed from the project
     * Notes: The task will still exist in the system, but it will not be in the project anymore
+32. `asana_delete_task`
+    * Delete a task permanently
+    * Required input:
+        * task_id (string): The task ID to delete
+    * Returns: Success message confirming the task was deleted
+    * Notes: This action cannot be undone. The task will be permanently removed.
 
 ## Prompts
 

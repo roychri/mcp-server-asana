@@ -484,3 +484,18 @@ export const removeProjectFromTaskTool: Tool = {
   }
 };
 
+export const deleteTaskTool: Tool = {
+  name: "asana_delete_task",
+  description: "Delete a task. This permanently removes the task and cannot be undone.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to delete"
+      }
+    },
+    required: ["task_id"]
+  }
+};
+

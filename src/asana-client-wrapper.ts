@@ -422,4 +422,9 @@ export class AsanaClientWrapper {
     const response = await this.tasks.removeProjectForTask(body, taskId);
     return response.data;
   }
+
+  async deleteTask(taskId: string) {
+    const response = await this.tasks.deleteTask(taskId);
+    return response.data;
+  }
 }

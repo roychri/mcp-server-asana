@@ -23,7 +23,8 @@ import {
   createSubtaskTool,
   getMultipleTasksByGidTool,
   addProjectToTaskTool,
-  removeProjectFromTaskTool
+  removeProjectFromTaskTool,
+  deleteTaskTool
 } from './tools/task-tools.js';
 import {
   getTagTool,
@@ -79,6 +80,7 @@ const all_tools: Tool[] = [
   removeTagFromTaskTool,
   addProjectToTaskTool,
   removeProjectFromTaskTool,
+  deleteTaskTool,
 ];
 
 // List of tools that only read Asana state
@@ -536,6 +538,15 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           const { task_id, project_id } = args;
           await asanaClient.removeProjectFromTask(task_id, project_id);
           const message = `Successfully removed task ${task_id} from project ${project_id}`;
+          return {
+            content: [{ type: "text", text: message }],
+          };
+        }
+
+        case "asana_delete_task": {
+          const { task_id } = args;
+          await asanaClient.deleteTask(task_id);
+          const message = `Successfully deleted task ${task_id}`;
           return {
             content: [{ type: "text", text: message }],
           };
