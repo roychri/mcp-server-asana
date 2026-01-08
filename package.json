@@ -42,12 +42,12 @@
     "@types/node": "^22.10.1",
     "esbuild": "^0.24.0",
     "esbuild-register": "^3.6.0",
-    "jsdom": "^26.0.0",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.4.1",
-    "asana": "^3.0.12"
+    "asana": "^3.0.12",
+    "jsdom": "^27.4.0"
   }
 }

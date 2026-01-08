@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Fixed
 - Search task filters now correctly use dot-notation for Asana API (e.g., `projects.any` instead of `projects_any`)
+- Missing `jsdom` dependency: moved from devDependencies to dependencies so HTML validation works when installed via npm
 
 ### Changed
 - Improved error handling for HTML content validation
