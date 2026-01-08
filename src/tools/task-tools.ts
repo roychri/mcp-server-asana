@@ -339,6 +339,10 @@ export const updateTaskTool: Tool = {
         type: "string",
         description: "New description for the task"
       },
+      html_notes: {
+        type: "string",
+        description: "HTML-like formatted description of the task. Does not support ALL HTML tags. Only a subset. The only allowed TAG in the HTML are: <body> <h1> <h2> <ol> <ul> <li> <strong> <em> <u> <s> <code> <pre> <blockquote> <a data-asana-type=\"\" data-asana-gid=\"\"> <hr> <img> <table> <tr> <td>. No other tags are allowed. Use the \\n to create a newline. Do not use \\n after <body>. Example: <body><h1>Motivation</h1>\nA customer called in to complain\n<h1>Goal</h1>\nFix the problem</body>"
+      },
       due_on: {
         type: "string",
         description: "New due date in YYYY-MM-DD format"
@@ -346,6 +350,17 @@ export const updateTaskTool: Tool = {
       assignee: {
         type: "string",
         description: "New assignee (can be 'me' or a user ID)"
+      },
+      followers: {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        description: "Array of user IDs to add as followers"
+      },
+      parent: {
+        type: "string",
+        description: "The parent task ID to move this task under"
       },
       completed: {
         type: "boolean",
