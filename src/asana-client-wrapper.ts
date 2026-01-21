@@ -437,16 +437,16 @@ export class AsanaClientWrapper {
   }
 
   async createSection(projectId: string, data: { name: string }, opts: any = {}) {
-    const options = opts.opt_fields ? opts : {};
-    const body = { data };
-    const response = await this.sections.createSectionForProject(body, projectId, options);
+    const options: any = { body: { data } };
+    if (opts.opt_fields) options.opt_fields = opts.opt_fields;
+    const response = await this.sections.createSectionForProject(projectId, options);
     return response.data;
   }
 
   async updateSection(sectionId: string, data: { name: string }, opts: any = {}) {
-    const options = opts.opt_fields ? opts : {};
-    const body = { data };
-    const response = await this.sections.updateSection(body, sectionId, options);
+    const options: any = { body: { data } };
+    if (opts.opt_fields) options.opt_fields = opts.opt_fields;
+    const response = await this.sections.updateSection(sectionId, options);
     return response.data;
   }
 
@@ -459,8 +459,7 @@ export class AsanaClientWrapper {
     const data: any = { task: taskId };
     if (insertBefore) data.insert_before = insertBefore;
     if (insertAfter) data.insert_after = insertAfter;
-    const body = { data };
-    const response = await this.sections.addTaskForSection(body, sectionId);
+    const response = await this.sections.addTaskForSection(sectionId, { body: { data } });
     return response.data;
   }
 
