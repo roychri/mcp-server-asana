@@ -8,8 +8,15 @@ import {
   getProjectTool,
   getProjectTaskCountsTool,
   getProjectSectionsTool,
-  createProjectTool
+  createProjectTool,
+  updateProjectTool
 } from './tools/project-tools.js';
+import {
+  createSectionTool,
+  updateSectionTool,
+  deleteSectionTool,
+  addTaskToSectionTool
+} from './tools/section-tools.js';
 import {
   getProjectStatusTool,
   getProjectStatusesForProjectTool,
@@ -83,6 +90,11 @@ const all_tools: Tool[] = [
   addProjectToTaskTool,
   removeProjectFromTaskTool,
   deleteTaskTool,
+  createSectionTool,
+  updateSectionTool,
+  deleteSectionTool,
+  addTaskToSectionTool,
+  updateProjectTool,
 ];
 
 // List of tools that only read Asana state
@@ -560,6 +572,76 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           return {
             content: [{ type: "text", text: message }],
           };
+        }
+
+        case "asana_create_section": {
+          const { project_id, name, ...opts } = args;
+          const response = await asanaClient.createSection(project_id, { name }, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_update_section": {
+          const { section_id, name, ...opts } = args;
+          const response = await asanaClient.updateSection(section_id, { name }, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_delete_section": {
+          const { section_id } = args;
+          await asanaClient.deleteSection(section_id);
+          return {
+            content: [{ type: "text", text: `Successfully deleted section ${section_id}` }],
+          };
+        }
+
+        case "asana_add_task_to_section": {
+          const { section_id, task_id, insert_before, insert_after } = args;
+          await asanaClient.addTaskToSection(section_id, task_id, insert_before, insert_after);
+          return {
+            content: [{ type: "text", text: `Successfully moved task ${task_id} to section ${section_id}` }],
+          };
+        }
+
+        case "asana_update_project": {
+          const { project_id, opt_fields, ...projectData } = args;
+          try {
+            const response = await asanaClient.updateProject(project_id, projectData, { opt_fields });
+            return {
+              content: [{ type: "text", text: JSON.stringify(response) }],
+            };
+          } catch (error) {
+            // When error occurs and html_notes was provided, validate it
+            if (projectData.html_notes && error instanceof Error && error.message.includes('400')) {
+              const xmlValidationErrors = validateAsanaXml(projectData.html_notes);
+              if (xmlValidationErrors.length > 0) {
+                return {
+                  content: [{
+                    type: "text",
+                    text: JSON.stringify({
+                      error: error instanceof Error ? error.message : String(error),
+                      validation_errors: xmlValidationErrors,
+                      message: "The HTML notes contain invalid XML formatting. Please check the validation errors above."
+                    })
+                  }],
+                };
+              } else {
+                return {
+                  content: [{
+                    type: "text",
+                    text: JSON.stringify({
+                      error: error instanceof Error ? error.message : String(error),
+                      html_notes_validation: "The HTML notes format is valid. The error must be related to something else."
+                    })
+                  }],
+                };
+              }
+            }
+            throw error;
+          }
         }
 
         default:

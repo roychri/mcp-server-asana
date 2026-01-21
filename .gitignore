@@ -6,3 +6,4 @@ dist
 .env
 !.aider.conf.yml
 !.aiderignore
+.planning
