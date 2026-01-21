@@ -8,6 +8,7 @@ export class AsanaClientWrapper {
   private projectStatuses: any;
   private tags: any;
   private customFieldSettings: any;
+  private sections: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -21,6 +22,7 @@ export class AsanaClientWrapper {
     this.projectStatuses = new Asana.ProjectStatusesApi();
     this.tags = new Asana.TagsApi();
     this.customFieldSettings = new Asana.CustomFieldSettingsApi();
+    this.sections = new Asana.SectionsApi();
   }
 
   async listWorkspaces(opts: any = {}) {
@@ -243,8 +245,7 @@ export class AsanaClientWrapper {
   async getProjectSections(projectId: string, opts: any = {}) {
     // Only include opts if opt_fields was actually provided
     const options = opts.opt_fields ? opts : {};
-    const sections = new Asana.SectionsApi();
-    const response = await sections.getSectionsForProject(projectId, options);
+    const response = await this.sections.getSectionsForProject(projectId, options);
     return response.data;
   }
 
@@ -432,6 +433,40 @@ export class AsanaClientWrapper {
 
   async deleteTask(taskId: string) {
     const response = await this.tasks.deleteTask(taskId);
+    return response.data;
+  }
+
+  async createSection(projectId: string, data: { name: string }, opts: any = {}) {
+    const options: any = { body: { data } };
+    if (opts.opt_fields) options.opt_fields = opts.opt_fields;
+    const response = await this.sections.createSectionForProject(projectId, options);
+    return response.data;
+  }
+
+  async updateSection(sectionId: string, data: { name: string }, opts: any = {}) {
+    const options: any = { body: { data } };
+    if (opts.opt_fields) options.opt_fields = opts.opt_fields;
+    const response = await this.sections.updateSection(sectionId, options);
+    return response.data;
+  }
+
+  async deleteSection(sectionId: string) {
+    const response = await this.sections.deleteSection(sectionId);
+    return response.data;
+  }
+
+  async addTaskToSection(sectionId: string, taskId: string, insertBefore?: string, insertAfter?: string) {
+    const data: any = { task: taskId };
+    if (insertBefore) data.insert_before = insertBefore;
+    if (insertAfter) data.insert_after = insertAfter;
+    const response = await this.sections.addTaskForSection(sectionId, { body: { data } });
+    return response.data;
+  }
+
+  async updateProject(projectId: string, data: any, opts: any = {}) {
+    const options = opts.opt_fields ? opts : {};
+    const body = { data };
+    const response = await this.projects.updateProject(body, projectId, options);
     return response.data;
   }
 }
