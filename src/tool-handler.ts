@@ -45,7 +45,8 @@ import {
 } from './tools/task-relationship-tools.js';
 import {
   getStoriesForTaskTool,
-  createTaskStoryTool
+  createTaskStoryTool,
+  updateTaskStoryTool
 } from './tools/story-tools.js';
 import {
   rollbackTool,
@@ -66,6 +67,7 @@ const all_tools: Tool[] = [
   getProjectSectionsTool,
   createProjectTool,
   createTaskStoryTool,
+  updateTaskStoryTool,
   addTaskDependenciesTool,
   addTaskDependentsTool,
   createSubtaskTool,
@@ -392,6 +394,58 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               };
             }
             throw error; // re-throw to be caught by the outer try/catch
+          }
+        }
+
+        case "asana_update_task_story": {
+          const { story_id, text, html_text, is_pinned, ...opts } = args;
+
+          let warning: string | null = null;
+          let effectiveText = text;
+          let effectiveHtmlText = html_text;
+
+          if (text && html_text) {
+            warning = "Warning: Both 'text' and 'html_text' were provided. The Asana API does not support both simultaneously. Using 'html_text' and ignoring 'text'. Use 'html_text' for formatted content with @mentions, links, and styling. Use 'text' for plain text comments.";
+            effectiveText = null;
+          }
+
+          try {
+            if (effectiveHtmlText) {
+              const xmlValidationErrors = validateAsanaXml(effectiveHtmlText);
+              if (xmlValidationErrors.length > 0) {
+                return {
+                  content: [{
+                    type: "text",
+                    text: JSON.stringify({
+                      error: "HTML validation failed",
+                      validation_errors: xmlValidationErrors,
+                      message: "The HTML text contains invalid XML formatting. Please check the validation errors above."
+                    })
+                  }],
+                };
+              }
+            }
+
+            const response = await asanaClient.updateTaskStory(story_id, effectiveText, opts, effectiveHtmlText, is_pinned);
+            const result = warning
+              ? { warning, result: response }
+              : response;
+            return {
+              content: [{ type: "text", text: JSON.stringify(result) }],
+            };
+          } catch (error) {
+            if (html_text && error instanceof Error && error.message.includes('400')) {
+              return {
+                content: [{
+                  type: "text",
+                  text: JSON.stringify({
+                    error: error instanceof Error ? error.message : String(error),
+                    html_text_validation: "The HTML format is valid. The error must be related to something else in the API request."
+                  })
+                }],
+              };
+            }
+            throw error;
           }
         }
 

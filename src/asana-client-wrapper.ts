@@ -278,6 +278,29 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
+  async updateTaskStory(storyId: string, text: string | null = null, opts: any = {}, html_text: string | null = null, is_pinned: boolean | null = null) {
+    const options = opts.opt_fields ? opts : {};
+    const data: any = {};
+
+    if (text) {
+      data.text = text;
+    } else if (html_text) {
+      data.html_text = html_text;
+    }
+
+    if (is_pinned !== null && is_pinned !== undefined) {
+      data.is_pinned = is_pinned;
+    }
+
+    if (Object.keys(data).length === 0) {
+      throw new Error("At least one of text, html_text, or is_pinned must be provided");
+    }
+
+    const body = { data };
+    const response = await this.stories.updateStory(body, storyId, options);
+    return response.data;
+  }
+
   async addTaskDependencies(taskId: string, dependencies: string[]) {
     const body = {
       data: {
