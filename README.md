@@ -1,6 +1,8 @@
 # MCP Server for Asana
 
-[![npm version](https://badge.fury.io/js/%40roychri%2Fmcp-server-asana.svg)](https://www.npmjs.com/package/@roychri/mcp-server-asana)
+[![npm version](https://badge.fury.io/js/%40panchopoliti%2Fmcp-server-asana.svg)](https://www.npmjs.com/package/@panchopoliti/mcp-server-asana)
+
+> **Fork of [@roychri/mcp-server-asana](https://github.com/roychri/mcp-server-asana)** with transaction logging, rollback support, and safety guards for destructive operations.
 
 This Model Context Protocol server implementation of Asana allows you
 to talk to Asana API from MCP Client such as Anthropic's Claude
@@ -424,7 +426,7 @@ Another example:
      "mcpServers": {
        "asana": {
          "command": "npx",
-         "args": ["-y", "@roychri/mcp-server-asana"],
+         "args": ["-y", "@panchopoliti/mcp-server-asana"],
          "env": {
            "ASANA_ACCESS_TOKEN": "your-asana-access-token"
          }
@@ -432,25 +434,25 @@ Another example:
      }
    }
    ```
-   
+
    ### For Claude Code:
-   
+
    Use the following command to install and configure the MCP server:
-   
+
    ```bash
-   claude mcp add asana -e ASANA_ACCESS_TOKEN=<TOKEN> -- npx -y @roychri/mcp-server-asana
+   claude mcp add asana -e ASANA_ACCESS_TOKEN=<TOKEN> -- npx -y @panchopoliti/mcp-server-asana
    ```
    
    Replace `<TOKEN>` with your Asana access token.
 
 If you want to install the beta version (not yet released), you can use:
 
-* `@roychri/mcp-server-asana@beta`
+* `@panchopoliti/mcp-server-asana@beta`
 
 You can find the current beta release, if any, with either:
 
-1. https://www.npmjs.com/package/@roychri/mcp-server-asana?activeTab=versions
-2. `npm dist-tag ls @roychri/mcp-server-asana`
+1. https://www.npmjs.com/package/@panchopoliti/mcp-server-asana?activeTab=versions
+2. `npm dist-tag ls @panchopoliti/mcp-server-asana`
 
 ## Troubleshooting
 
