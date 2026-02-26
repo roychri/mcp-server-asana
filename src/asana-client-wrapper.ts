@@ -1,5 +1,9 @@
 import Asana from 'asana';
 
+function escapeRegExp(value: string): string {
+  return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+}
+
 export class AsanaClientWrapper {
   private workspaces: any;
   private projects: any;
@@ -33,7 +37,9 @@ export class AsanaClientWrapper {
       archived,
       ...opts
     });
-    const pattern = new RegExp(namePattern, 'i');
+
+    // Treat input as plain text so untrusted patterns cannot trigger expensive regex backtracking.
+    const pattern = new RegExp(escapeRegExp(namePattern), 'i');
     return response.data.filter((project: any) => pattern.test(project.name));
   }
 
