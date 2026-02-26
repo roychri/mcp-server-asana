@@ -21,6 +21,7 @@ More details on MCP here:
   - The `create-task` prompt will be disabled
   - Only read operations will be available
   This is useful for testing or when you want to ensure no changes can be made to your Asana workspace.
+- `ALLOW_DESTRUCTIVE_OPERATIONS`: (Optional) Set to 'true' to enable delete operations (`asana_delete_task`, `asana_delete_tag`, `asana_delete_project_status`). These tools are **disabled by default** because deletions are irreversible — the rollback system can only log an audit trail but cannot restore deleted data (including nested subtasks, comments, attachments, and relationships).
 
 ## Usage
 

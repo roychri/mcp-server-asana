@@ -111,13 +111,21 @@ export const READ_ONLY_TOOLS = [
   'asana_get_transaction_log',
 ];
 
-// Filter tools based on READ_ONLY_MODE
+// List of tools that perform irreversible deletions
+const DESTRUCTIVE_TOOLS = [
+  'asana_delete_task',
+  'asana_delete_tag',
+  'asana_delete_project_status',
+];
+
+// Filter tools based on READ_ONLY_MODE and ALLOW_DESTRUCTIVE_OPERATIONS
 const isReadOnlyMode = process.env.READ_ONLY_MODE === 'true';
+const allowDestructive = process.env.ALLOW_DESTRUCTIVE_OPERATIONS === 'true';
 
 // Export filtered list of tools
-export const list_of_tools = isReadOnlyMode
-  ? all_tools.filter(tool => READ_ONLY_TOOLS.includes(tool.name))
-  : all_tools;
+export const list_of_tools = all_tools
+  .filter(tool => !isReadOnlyMode || READ_ONLY_TOOLS.includes(tool.name))
+  .filter(tool => allowDestructive || !DESTRUCTIVE_TOOLS.includes(tool.name));
 
 export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToolRequest) => Promise<CallToolResult> {
   return async (request: CallToolRequest) => {
@@ -130,6 +138,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
       // Block non-read operations in read-only mode
       if (isReadOnlyMode && !READ_ONLY_TOOLS.includes(request.params.name)) {
         throw new Error(`Tool ${request.params.name} is not available in read-only mode`);
+      }
+
+      // Block destructive operations unless explicitly allowed
+      if (!allowDestructive && DESTRUCTIVE_TOOLS.includes(request.params.name)) {
+        throw new Error(
+          `Tool ${request.params.name} is disabled by default because delete operations are irreversible. ` +
+          `Set ALLOW_DESTRUCTIVE_OPERATIONS=true to enable delete operations.`
+        );
       }
 
       const args = request.params.arguments as any;
