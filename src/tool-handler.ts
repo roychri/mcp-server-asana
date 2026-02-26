@@ -47,6 +47,10 @@ import {
   getStoriesForTaskTool,
   createTaskStoryTool
 } from './tools/story-tools.js';
+import {
+  rollbackTool,
+  getTransactionLogTool
+} from './tools/transaction-tools.js';
 
 // List of all available tools
 const all_tools: Tool[] = [
@@ -83,10 +87,12 @@ const all_tools: Tool[] = [
   addProjectToTaskTool,
   removeProjectFromTaskTool,
   deleteTaskTool,
+  rollbackTool,
+  getTransactionLogTool,
 ];
 
 // List of tools that only read Asana state
-const READ_ONLY_TOOLS = [
+export const READ_ONLY_TOOLS = [
   'asana_list_workspaces',
   'asana_search_projects',
   'asana_search_tasks',
@@ -101,7 +107,8 @@ const READ_ONLY_TOOLS = [
   'asana_get_tag',
   'asana_get_tags_for_task',
   'asana_get_tasks_for_tag',
-  'asana_get_tags_for_workspace'
+  'asana_get_tags_for_workspace',
+  'asana_get_transaction_log',
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -574,6 +581,7 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
       };
 
       return {
+        isError: true,
         content: [
           {
             type: "text",

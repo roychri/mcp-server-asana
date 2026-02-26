@@ -325,6 +325,22 @@ Another example:
         * default_view (string): Default view (list, board, calendar, timeline)
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: The created project object
+34. `asana_rollback`
+    * Rollback one or more previous write operations performed through this MCP server. Operations are rolled back in reverse chronological order. Irreversible operations (deletes, comments) are skipped.
+    * Optional input:
+        * transaction_id (string): UUID of a specific transaction to roll back
+        * session_id (string): Roll back all reversible operations from this session (in reverse order)
+        * last_n (number): Roll back the last N reversible operations from the current session
+        * dry_run (boolean): If true, return what would be rolled back without executing (default: false)
+    * Returns: Summary of rolled back, skipped, and errored transactions
+35. `asana_get_transaction_log`
+    * View the transaction log of write operations performed through this MCP server. Returns log entries with operation details, reversibility status, and rollback state.
+    * Optional input:
+        * session_id (string): Filter to a specific session. Defaults to the current session.
+        * reversible_only (boolean): If true, only show reversible transactions (default: false)
+        * include_rolled_back (boolean): If true, include already rolled-back transactions (default: false)
+        * limit (number): Maximum number of entries to return (default: 50)
+    * Returns: Transaction log entries for the session
 
 ## Prompts
 

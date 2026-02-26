@@ -13,6 +13,7 @@ import {
   ReadResourceRequestSchema,
 } from "@modelcontextprotocol/sdk/types.js";
 import { AsanaClientWrapper } from './asana-client-wrapper.js'
+import { TransactionLogger } from './lib/transaction-logger.js';
 import { createPromptHandlers } from './prompt-handler.js';
 import { createResourceHandlers } from './resource-handler.js';
 
@@ -41,9 +42,15 @@ async function main() {
 
   const asanaClient = new AsanaClientWrapper(asanaToken);
 
+  const transactionLogger = new TransactionLogger(asanaClient, {
+    logPath: process.env.TRANSACTION_LOG_PATH || './asana-mcp-transactions.jsonl',
+    enabled: process.env.TRANSACTION_LOG_ENABLED !== 'false',
+    readOnlyMode: process.env.READ_ONLY_MODE === 'true',
+  });
+
   server.setRequestHandler(
     CallToolRequestSchema,
-    tool_handler(asanaClient)
+    transactionLogger.wrap(tool_handler(asanaClient))
   );
 
   server.setRequestHandler(ListToolsRequestSchema, async () => {
