@@ -1,0 +1,23 @@
+{
+  "name": "roychri/mcp-server-asana",
+  "description": "MCP Server for Asana",
+  "accepts": [
+    {
+      "network": "eip155:8453",
+      "asset": "USDC",
+      "address": "YOUR_WALLET_ADDRESS"
+    }
+  ],
+  "resources": [
+    {
+      "path": "/asana",
+      "price": "0.01",
+      "description": "Pay-per-call access to asana"
+    },
+    {
+      "path": "/anthropic",
+      "price": "0.01",
+      "description": "Pay-per-call access to anthropic"
+    }
+  ]
+}
