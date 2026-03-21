@@ -8,6 +8,7 @@ import {
   getProjectTool,
   getProjectTaskCountsTool,
   getProjectSectionsTool,
+  getTasksForProjectTool,
   createProjectTool,
   updateProjectTool
 } from './tools/project-tools.js';
@@ -29,6 +30,7 @@ import {
   createTaskTool,
   updateTaskTool,
   createSubtaskTool,
+  getSubtasksForTaskTool,
   getMultipleTasksByGidTool,
   addProjectToTaskTool,
   removeProjectFromTaskTool,
@@ -67,11 +69,13 @@ const all_tools: Tool[] = [
   getProjectTool,
   getProjectTaskCountsTool,
   getProjectSectionsTool,
+  getTasksForProjectTool,
   createProjectTool,
   createTaskStoryTool,
   addTaskDependenciesTool,
   addTaskDependentsTool,
   createSubtaskTool,
+  getSubtasksForTaskTool,
   getMultipleTasksByGidTool,
   getProjectStatusTool,
   getProjectStatusesForProjectTool,
@@ -109,11 +113,13 @@ const READ_ONLY_TOOLS = [
   'asana_get_project_status',
   'asana_get_project_statuses',
   'asana_get_project_sections',
+  'asana_get_tasks_for_project',
   'asana_get_multiple_tasks_by_gid',
   'asana_get_tag',
   'asana_get_tags_for_task',
   'asana_get_tasks_for_tag',
-  'asana_get_tags_for_workspace'
+  'asana_get_tags_for_workspace',
+  'asana_get_subtasks'
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -320,6 +326,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           };
         }
 
+        case "asana_get_tasks_for_project": {
+          const { project_id, ...opts } = args;
+          const response = await asanaClient.getTasksForProject(project_id, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
         case "asana_create_project": {
           const { opt_fields, ...data } = args;
           const response = await asanaClient.createProject(data, { opt_fields });
@@ -440,6 +454,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
             }
             throw error; // re-throw to be caught by the outer try/catch
           }
+        }
+
+        case "asana_get_subtasks": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getSubtasksForTask(task_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
         }
 
         case "asana_get_multiple_tasks_by_gid": {

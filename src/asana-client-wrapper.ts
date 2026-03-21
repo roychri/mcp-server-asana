@@ -293,6 +293,11 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
+  async getSubtasksForTask(taskId: string, opts: any = {}) {
+    const response = await this.tasks.getSubtasksForTask(taskId, opts);
+    return response.data;
+  }
+
   async createSubtask(parentTaskId: string, data: any, opts: any = {}) {
     const taskData = {
       data: {
@@ -433,6 +438,11 @@ export class AsanaClientWrapper {
 
   async deleteTask(taskId: string) {
     const response = await this.tasks.deleteTask(taskId);
+    return response.data;
+  }
+
+  async getTasksForProject(projectId: string, opts: any = {}) {
+    const response = await this.tasks.getTasksForProject(projectId, opts);
     return response.data;
   }
 

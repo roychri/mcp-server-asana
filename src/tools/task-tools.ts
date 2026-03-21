@@ -449,6 +449,25 @@ export const getMultipleTasksByGidTool: Tool = {
   }
 };
 
+export const getSubtasksForTaskTool: Tool = {
+  name: "asana_get_subtasks",
+  description: "Get all subtasks of a given task. Returns a compact representation of each subtask.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_gid: {
+        type: "string",
+        description: "The GID of the parent task"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include (e.g. 'name,completed,assignee,due_on')"
+      }
+    },
+    required: ["task_gid"]
+  }
+};
+
 export const addProjectToTaskTool: Tool = {
   name: "asana_add_project_to_task",
   description: "Add an existing task to a project. If no positioning arguments are given, the task will be added to the end of the project.",
