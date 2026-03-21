@@ -8,6 +8,7 @@ import {
   getProjectTool,
   getProjectTaskCountsTool,
   getProjectSectionsTool,
+  getTasksForProjectTool,
   createProjectTool,
   updateProjectTool
 } from './tools/project-tools.js';
@@ -30,6 +31,7 @@ import {
   createTaskTool,
   updateTaskTool,
   createSubtaskTool,
+  getSubtasksForTaskTool,
   getMultipleTasksByGidTool,
   addProjectToTaskTool,
   removeProjectFromTaskTool,
@@ -69,11 +71,13 @@ const all_tools: Tool[] = [
   getProjectTool,
   getProjectTaskCountsTool,
   getProjectSectionsTool,
+  getTasksForProjectTool,
   createProjectTool,
   createTaskStoryTool,
   addTaskDependenciesTool,
   addTaskDependentsTool,
   createSubtaskTool,
+  getSubtasksForTaskTool,
   getMultipleTasksByGidTool,
   getProjectStatusTool,
   getProjectStatusesForProjectTool,
@@ -112,11 +116,13 @@ const READ_ONLY_TOOLS = [
   'asana_get_project_status',
   'asana_get_project_statuses',
   'asana_get_project_sections',
+  'asana_get_tasks_for_project',
   'asana_get_multiple_tasks_by_gid',
   'asana_get_tag',
   'asana_get_tags_for_task',
   'asana_get_tasks_for_tag',
-  'asana_get_tags_for_workspace'
+  'asana_get_tags_for_workspace',
+  'asana_get_subtasks'
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -331,6 +337,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
           };
         }
 
+        case "asana_get_tasks_for_project": {
+          const { project_id, ...opts } = args;
+          const response = await asanaClient.getTasksForProject(project_id, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
         case "asana_create_project": {
           const { opt_fields, ...data } = args;
           const response = await asanaClient.createProject(data, { opt_fields });
@@ -451,6 +465,14 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
             }
             throw error; // re-throw to be caught by the outer try/catch
           }
+        }
+
+        case "asana_get_subtasks": {
+          const { task_gid, ...opts } = args;
+          const response = await asanaClient.getSubtasksForTask(task_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
         }
 
         case "asana_get_multiple_tasks_by_gid": {
@@ -603,10 +625,23 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
 
         case "asana_delete_section": {
           const { section_id } = args;
-          await asanaClient.deleteSection(section_id);
-          return {
-            content: [{ type: "text", text: `Successfully deleted section ${section_id}` }],
-          };
+          try {
+            await asanaClient.deleteSection(section_id);
+            return {
+              content: [{ type: "text", text: `Successfully deleted section ${section_id}` }],
+            };
+          } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            return {
+              content: [{
+                type: "text",
+                text: JSON.stringify({
+                  error: errorMessage,
+                  note: "A Bad Request error when deleting a section can occur if the section still contains tasks. Move or remove all tasks from the section before deleting it."
+                })
+              }],
+            };
+          }
         }
 
         case "asana_add_task_to_section": {

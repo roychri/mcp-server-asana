@@ -85,6 +85,33 @@ export const getProjectSectionsTool: Tool = {
   }
 };
 
+export const getTasksForProjectTool: Tool = {
+  name: "asana_get_tasks_for_project",
+  description: "Get all tasks in a project. Use this instead of search_tasks when you need to list tasks in a specific project. Supports pagination and optional field selection.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      project_id: {
+        type: "string",
+        description: "The project GID to get tasks for"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include (e.g. 'name,completed,assignee,due_on,memberships.section.name')"
+      },
+      limit: {
+        type: "integer",
+        description: "The number of objects to return per page. The value must be between 1 and 100."
+      },
+      offset: {
+        type: "string",
+        description: "An offset token from a previous response for pagination"
+      }
+    },
+    required: ["project_id"]
+  }
+};
+
 export const createProjectTool: Tool = {
   name: "asana_create_project",
   description: "Create a new project in a workspace or team",
