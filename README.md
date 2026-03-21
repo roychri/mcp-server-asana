@@ -325,6 +325,48 @@ Another example:
         * default_view (string): Default view (list, board, calendar, timeline)
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: The created project object
+34. `asana_update_project`
+    * Update a project's details (name, description, etc.)
+    * Required input:
+        * project_id (string): The project GID to update
+    * Optional input:
+        * name (string): New name for the project
+        * notes (string): New plain text description for the project
+        * html_notes (string): New HTML formatted description (must be valid Asana XML)
+        * color (string): Color of the project (e.g., dark-pink, dark-green, light-blue)
+        * privacy_setting (string): Privacy setting (public_to_workspace, private_to_team, private)
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Updated project information
+35. `asana_create_section`
+    * Create a new section in a project
+    * Required input:
+        * project_id (string): The project GID to create the section in
+        * name (string): Name of the new section
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Created section information
+36. `asana_update_section`
+    * Update a section (rename it)
+    * Required input:
+        * section_id (string): The section GID to update
+        * name (string): New name for the section
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Updated section information
+37. `asana_delete_section`
+    * Delete a section from a project
+    * Required input:
+        * section_id (string): The section GID to delete
+    * Returns: Deletion confirmation
+38. `asana_add_task_to_section`
+    * Move a task to a section within its project
+    * Required input:
+        * section_id (string): The section GID to add the task to
+        * task_id (string): The task GID to move
+    * Optional input:
+        * insert_before (string): A task GID to insert the task before
+        * insert_after (string): A task GID to insert the task after
+    * Returns: Success confirmation
 
 ## Prompts
 
