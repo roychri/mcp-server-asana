@@ -367,6 +367,22 @@ Another example:
         * insert_before (string): A task GID to insert the task before
         * insert_after (string): A task GID to insert the task after
     * Returns: Success confirmation
+39. `asana_get_subtasks`
+    * Get all subtasks of a given task. Returns a compact representation of each subtask.
+    * Required input:
+        * task_gid (string): The GID of the parent task
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include (e.g. 'name,completed,assignee,due_on')
+    * Returns: Array of subtask objects
+40. `asana_get_tasks_for_project`
+    * Get all tasks in a project. Use this instead of search_tasks when you need to list tasks in a specific project. Works on free Asana plans (unlike search_tasks which requires premium). Supports pagination and optional field selection.
+    * Required input:
+        * project_id (string): The project GID to get tasks for
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+        * limit (number): Results per page (1-100)
+        * offset (string): Pagination offset token from a previous response
+    * Returns: Array of task objects
 
 ## Prompts
 
