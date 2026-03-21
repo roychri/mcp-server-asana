@@ -592,10 +592,23 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
 
         case "asana_delete_section": {
           const { section_id } = args;
-          await asanaClient.deleteSection(section_id);
-          return {
-            content: [{ type: "text", text: `Successfully deleted section ${section_id}` }],
-          };
+          try {
+            await asanaClient.deleteSection(section_id);
+            return {
+              content: [{ type: "text", text: `Successfully deleted section ${section_id}` }],
+            };
+          } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : String(error);
+            return {
+              content: [{
+                type: "text",
+                text: JSON.stringify({
+                  error: errorMessage,
+                  note: "A Bad Request error when deleting a section can occur if the section still contains tasks. Move or remove all tasks from the section before deleting it."
+                })
+              }],
+            };
+          }
         }
 
         case "asana_add_task_to_section": {
