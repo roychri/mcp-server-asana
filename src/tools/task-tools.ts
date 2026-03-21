@@ -1,5 +1,28 @@
 import { Tool } from "@modelcontextprotocol/sdk/types.js";
 
+export const getMyTasksTool: Tool = {
+  name: "asana_get_my_tasks",
+  description: "Get tasks from the authenticated user's 'My Tasks' list in a workspace. Returns the user's personal task list including sections like Inbox, Today, This Week, etc.",
+  inputSchema: {
+    type: "object",
+    properties: {
+      workspace: {
+        type: "string",
+        description: "The workspace GID to get My Tasks from"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include (e.g. 'name,due_on,completed,assignee_section,assignee_section.name')"
+      },
+      completed_since: {
+        type: "string",
+        description: "Only return tasks completed since this time (ISO 8601). Use 'now' to only return incomplete tasks."
+      }
+    },
+    required: ["workspace"]
+  }
+};
+
 export const searchTasksTool: Tool = {
   name: "asana_search_tasks",
   description: "Search tasks in a workspace with advanced filtering options",

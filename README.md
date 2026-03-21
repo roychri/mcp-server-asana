@@ -367,6 +367,14 @@ Another example:
         * insert_before (string): A task GID to insert the task before
         * insert_after (string): A task GID to insert the task after
     * Returns: Success confirmation
+39. `asana_get_my_tasks`
+    * Get tasks from the authenticated user's 'My Tasks' list in a workspace
+    * Required input:
+        * workspace (string): The workspace GID to get My Tasks from
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+        * completed_since (string): Only return tasks completed since this time (ISO 8601). Use 'now' to only return incomplete tasks.
+    * Returns: List of tasks from the user's My Tasks list
 
 ## Prompts
 
