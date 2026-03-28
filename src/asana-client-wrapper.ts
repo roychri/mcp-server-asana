@@ -47,12 +47,18 @@ export class AsanaClientWrapper {
   }
 
   async searchProjects(workspace: string, namePattern: string, archived: boolean = false, opts: any = {}) {
-    const response = await this.projects.getProjectsForWorkspace(workspace, {
-      archived,
-      ...opts
-    });
+    const MAX_PAGES = 50;
+    let allProjects: any[] = [];
+    let response = await this.projects.getProjectsForWorkspace(workspace, { archived, limit: 100, ...opts });
+    if (response.data) allProjects.push(...response.data);
+    let pages = 1;
+    while (response._response?.next_page && pages < MAX_PAGES) {
+      response = await response.nextPage();
+      if (response.data) allProjects.push(...response.data);
+      pages++;
+    }
     const pattern = new RegExp(namePattern, 'i');
-    return response.data.filter((project: any) => pattern.test(project.name));
+    return allProjects.filter((project: any) => pattern.test(project.name));
   }
 
   async searchTasks(workspace: string, searchOpts: any = {}) {
