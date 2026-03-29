@@ -8,9 +8,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+
+## [1.8.0] - 2026-03-29
+
 ### Added
 - New `asana_create_project` tool: create projects in a workspace with name, notes, and privacy settings
 - New `asana_delete_task` tool: permanently delete tasks
+- New `asana_get_my_tasks` tool: access user task lists
+- New `asana_get_subtasks` tool: list subtasks for a given task
+- New `asana_get_tasks_for_project` tool: list tasks within a project
+- Section management tools: `asana_create_section`, `asana_update_section`, `asana_delete_section`, `asana_add_task_to_section`
+- Project update tool: `asana_update_project`
 - Read-only mode: set `READ_ONLY_MODE=true` env var to disable all write operations
 - HTML validation for task creation and update: validate html_notes when API returns 400 errors
 - HTML support for task comments: added html_text parameter to createTaskStory
@@ -21,6 +29,8 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ### Fixed
 - Search task filters now correctly use dot-notation for Asana API (e.g., `projects.any` instead of `projects_any`)
 - Missing `jsdom` dependency: moved from devDependencies to dependencies so HTML validation works when installed via npm
+- Pagination support for `asana_search_projects` to handle large workspaces (#44)
+- Improved error message for `asana_delete_section` on Bad Request
 
 ### Changed
 - Improved error handling for HTML content validation
