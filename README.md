@@ -22,6 +22,10 @@ More details on MCP here:
   - Only read operations will be available
   This is useful for testing or when you want to ensure no changes can be made to your Asana workspace.
 
+## Hosted deployment
+
+A hosted deployment is available on [Fronteir AI](https://fronteir.ai/mcp/roychri-mcp-server-asana).
+
 ## Usage
 
 In the AI tool of your choice (ex: Claude Desktop) ask something about asana tasks, projects, workspaces, and/or comments. Mentioning the word "asana" will increase the chance of having the LLM pick the right tool.
