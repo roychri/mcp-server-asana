@@ -44,6 +44,58 @@ export const addTaskDependentsTool: Tool = {
   }
 };
 
+export const addTaskFollowersTool: Tool = {
+  name: "asana_add_task_followers",
+  description: "Add followers to a task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to add followers to"
+      },
+      followers: {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        description: "Array of user GIDs to add as followers of the task"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["task_id", "followers"]
+  }
+};
+
+export const removeTaskFollowersTool: Tool = {
+  name: "asana_remove_task_followers",
+  description: "Remove followers from a task",
+  inputSchema: {
+    type: "object",
+    properties: {
+      task_id: {
+        type: "string",
+        description: "The task ID to remove followers from"
+      },
+      followers: {
+        type: "array",
+        items: {
+          type: "string"
+        },
+        description: "Array of user GIDs to remove as followers of the task"
+      },
+      opt_fields: {
+        type: "string",
+        description: "Comma-separated list of optional fields to include"
+      }
+    },
+    required: ["task_id", "followers"]
+  }
+};
+
 export const setParentForTaskTool: Tool = {
   name: "asana_set_parent_for_task",
   description: "Set the parent of a task and position the subtask within the other subtasks of that parent",

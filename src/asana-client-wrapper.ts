@@ -315,6 +315,28 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
+  async addTaskFollowers(taskId: string, followers: string[], opts: any = {}) {
+    const body = {
+      data: {
+        followers: followers
+      }
+    };
+    const options = opts.opt_fields ? opts : {};
+    const response = await this.tasks.addFollowersForTask(body, taskId, options);
+    return response.data;
+  }
+
+  async removeTaskFollowers(taskId: string, followers: string[], opts: any = {}) {
+    const body = {
+      data: {
+        followers: followers
+      }
+    };
+    const options = opts.opt_fields ? opts : {};
+    const response = await this.tasks.removeFollowerForTask(body, taskId, options);
+    return response.data;
+  }
+
   async getSubtasksForTask(taskId: string, opts: any = {}) {
     const response = await this.tasks.getSubtasksForTask(taskId, opts);
     return response.data;
