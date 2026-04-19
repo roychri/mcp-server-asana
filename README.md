@@ -108,7 +108,6 @@ Another example:
         * html_notes (string): HTML-like formatted description of the task (subset of HTML tags supported)
         * due_on (string): New due date in YYYY-MM-DD format
         * assignee (string): New assignee (can be 'me' or a user ID)
-        * followers (array): Array of user IDs to add as followers
         * parent (string): The parent task ID to move this task under
         * completed (boolean): Mark task as completed or not
         * resource_subtype (string): The type of the task (default_task or milestone)
