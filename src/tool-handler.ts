@@ -51,6 +51,8 @@ import {
 import {
   addTaskDependenciesTool,
   addTaskDependentsTool,
+  addTaskFollowersTool,
+  removeTaskFollowersTool,
   setParentForTaskTool
 } from './tools/task-relationship-tools.js';
 import {
@@ -76,6 +78,8 @@ const all_tools: Tool[] = [
   createTaskStoryTool,
   addTaskDependenciesTool,
   addTaskDependentsTool,
+  addTaskFollowersTool,
+  removeTaskFollowersTool,
   createSubtaskTool,
   getSubtasksForTaskTool,
   getMultipleTasksByGidTool,
@@ -420,6 +424,22 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         case "asana_add_task_dependents": {
           const { task_id, dependents } = args;
           const response = await asanaClient.addTaskDependents(task_id, dependents);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_add_task_followers": {
+          const { task_id, followers, opt_fields } = args;
+          const response = await asanaClient.addTaskFollowers(task_id, followers, { opt_fields });
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_remove_task_followers": {
+          const { task_id, followers, opt_fields } = args;
+          const response = await asanaClient.removeTaskFollowers(task_id, followers, { opt_fields });
           return {
             content: [{ type: "text", text: JSON.stringify(response) }],
           };

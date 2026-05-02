@@ -374,13 +374,6 @@ export const updateTaskTool: Tool = {
         type: "string",
         description: "New assignee (can be 'me' or a user ID)"
       },
-      followers: {
-        type: "array",
-        items: {
-          type: "string"
-        },
-        description: "Array of user IDs to add as followers"
-      },
       parent: {
         type: "string",
         description: "The parent task ID to move this task under"
