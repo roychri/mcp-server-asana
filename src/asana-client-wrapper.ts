@@ -10,6 +10,8 @@ export class AsanaClientWrapper {
   private customFieldSettings: any;
   private sections: any;
   private userTaskLists: any;
+  private taskTemplates: any;
+  private jobs: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -25,6 +27,8 @@ export class AsanaClientWrapper {
     this.customFieldSettings = new Asana.CustomFieldSettingsApi();
     this.sections = new Asana.SectionsApi();
     this.userTaskLists = new Asana.UserTaskListsApi();
+    this.taskTemplates = new Asana.TaskTemplatesApi();
+    this.jobs = new Asana.JobsApi();
   }
 
   async listWorkspaces(opts: any = {}) {
@@ -499,6 +503,32 @@ export class AsanaClientWrapper {
     const options = opts.opt_fields ? opts : {};
     const body = { data };
     const response = await this.projects.updateProject(body, projectId, options);
+    return response.data;
+  }
+
+  async getTaskTemplates(opts: any = {}) {
+    const response = await this.taskTemplates.getTaskTemplates(opts);
+    return response.data;
+  }
+
+  async getTaskTemplate(taskTemplateGid: string, opts: any = {}) {
+    const response = await this.taskTemplates.getTaskTemplate(taskTemplateGid, opts);
+    return response.data;
+  }
+
+  async instantiateTask(taskTemplateGid: string, name: string, opts: any = {}) {
+    // The Asana API expects { data: { name } } as the request body.
+    // The SDK accepts the body via opts.body and other parameters as query params.
+    const callOpts: any = {
+      body: { data: { name } }
+    };
+    if (opts.opt_fields) callOpts.opt_fields = opts.opt_fields;
+    const response = await this.taskTemplates.instantiateTask(taskTemplateGid, callOpts);
+    return response.data;
+  }
+
+  async getJob(jobGid: string, opts: any = {}) {
+    const response = await this.jobs.getJob(jobGid, opts);
     return response.data;
   }
 }
