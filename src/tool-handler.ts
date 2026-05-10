@@ -57,6 +57,14 @@ import {
   getStoriesForTaskTool,
   createTaskStoryTool
 } from './tools/story-tools.js';
+import {
+  getTaskTemplatesTool,
+  getTaskTemplateTool,
+  instantiateTaskTool
+} from './tools/task-template-tools.js';
+import {
+  getJobTool
+} from './tools/job-tools.js';
 
 // List of all available tools
 const all_tools: Tool[] = [
@@ -101,6 +109,10 @@ const all_tools: Tool[] = [
   deleteSectionTool,
   addTaskToSectionTool,
   updateProjectTool,
+  getTaskTemplatesTool,
+  getTaskTemplateTool,
+  instantiateTaskTool,
+  getJobTool,
 ];
 
 // List of tools that only read Asana state
@@ -122,7 +134,10 @@ const READ_ONLY_TOOLS = [
   'asana_get_tags_for_task',
   'asana_get_tasks_for_tag',
   'asana_get_tags_for_workspace',
-  'asana_get_subtasks'
+  'asana_get_subtasks',
+  'asana_get_task_templates',
+  'asana_get_task_template',
+  'asana_get_job'
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -688,6 +703,43 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
             }
             throw error;
           }
+        }
+
+        case "asana_get_task_templates": {
+          const response = await asanaClient.getTaskTemplates(args);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_task_template": {
+          const { task_template_gid, ...opts } = args;
+          const response = await asanaClient.getTaskTemplate(task_template_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_instantiate_task": {
+          const { task_template_gid, name, opt_fields } = args;
+          const response = await asanaClient.instantiateTask(task_template_gid, name, { opt_fields });
+          return {
+            content: [{
+              type: "text",
+              text: JSON.stringify({
+                job: response,
+                note: "Task instantiation is asynchronous. The response is a Job, not a Task. Poll asana_get_job with the job's GID until status is 'succeeded'; the resulting task GID will be available in the job's 'new_task' field."
+              })
+            }],
+          };
+        }
+
+        case "asana_get_job": {
+          const { job_gid, ...opts } = args;
+          const response = await asanaClient.getJob(job_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
         }
 
         default:

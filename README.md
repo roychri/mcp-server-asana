@@ -391,6 +391,37 @@ Another example:
         * opt_fields (string): Comma-separated list of optional fields to include
         * completed_since (string): Only return tasks completed since this time (ISO 8601). Use 'now' to only return incomplete tasks.
     * Returns: List of tasks from the user's My Tasks list
+42. `asana_get_task_templates`
+    * List task templates in a project
+    * Required input:
+        * project (string): The project GID to filter task templates on
+    * Optional input:
+        * limit (number): Results per page (1-100)
+        * offset (string): Pagination offset token from a previous response
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: List of task templates
+43. `asana_get_task_template`
+    * Get the full record for a single task template by GID
+    * Required input:
+        * task_template_gid (string): The task template GID to retrieve
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Full task template record (including subtasks, custom fields, etc.)
+44. `asana_instantiate_task`
+    * Create a new task from a task template
+    * Required input:
+        * task_template_gid (string): The task template GID to instantiate from
+        * name (string): The name for the new task
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: An object containing a Job (not a Task). The Asana API processes instantiation asynchronously. Poll `asana_get_job` with the returned job GID until `status` is `succeeded`; the resulting task GID will then appear in the job's `new_task` field.
+45. `asana_get_job`
+    * Get the full record for an Asana Job by GID. Used to poll asynchronous operations such as task template instantiation.
+    * Required input:
+        * job_gid (string): The job GID to retrieve
+    * Optional input:
+        * opt_fields (string): Comma-separated list of optional fields to include
+    * Returns: Job record with `status` (one of `not_started`, `in_progress`, `succeeded`, `failed`) and, when applicable, the resulting resource (e.g. `new_task`).
 
 ## Prompts
 

@@ -8,6 +8,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- New `asana_get_task_templates` tool: list task templates within a project (#51)
+- New `asana_get_task_template` tool: fetch the full record for a single task template
+- New `asana_instantiate_task` tool: create a task from a task template; returns the Asana Job that handles the instantiation asynchronously
+- New `asana_get_job` tool: poll an Asana Job by GID, used to retrieve the resulting task GID after instantiation
+
 
 ## [1.8.0] - 2026-03-29
 
