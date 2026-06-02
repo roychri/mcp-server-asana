@@ -31,6 +31,7 @@ async function main() {
       'querystring',
       'asana',
       'jsdom',
+      're2',
     ]
   });
 }

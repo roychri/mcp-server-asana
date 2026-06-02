@@ -1,4 +1,5 @@
 import Asana from 'asana';
+import RE2 from 're2';
 
 export class AsanaClientWrapper {
   private workspaces: any;
@@ -57,7 +58,7 @@ export class AsanaClientWrapper {
       if (response.data) allProjects.push(...response.data);
       pages++;
     }
-    const pattern = new RegExp(namePattern, 'i');
+    const pattern = new RE2(namePattern, 'i');
     return allProjects.filter((project: any) => pattern.test(project.name));
   }
 
