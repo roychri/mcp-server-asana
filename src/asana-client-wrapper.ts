@@ -1,4 +1,5 @@
 import Asana from 'asana';
+import fs from 'fs';
 
 export class AsanaClientWrapper {
   private workspaces: any;
@@ -10,6 +11,7 @@ export class AsanaClientWrapper {
   private customFieldSettings: any;
   private sections: any;
   private userTaskLists: any;
+  private attachments: any;
 
   constructor(token: string) {
     const client = Asana.ApiClient.instance;
@@ -25,6 +27,55 @@ export class AsanaClientWrapper {
     this.customFieldSettings = new Asana.CustomFieldSettingsApi();
     this.sections = new Asana.SectionsApi();
     this.userTaskLists = new Asana.UserTaskListsApi();
+    this.attachments = new Asana.AttachmentsApi();
+  }
+
+  async createAttachment(parent: string, opts: any = {}) {
+    const { file_path, url, name, resource_subtype } = opts;
+
+    if (file_path && url) {
+      throw new Error("Provide either file_path or url, not both.");
+    }
+    if (!file_path && !url) {
+      throw new Error("Provide a file_path (to upload a local file) or a url (to attach an external link).");
+    }
+
+    const apiOpts: any = { parent };
+
+    if (file_path) {
+      if (!fs.existsSync(file_path)) {
+        throw new Error(`File not found: ${file_path}`);
+      }
+      // A ReadStream is recognized by the SDK as a file param; superagent
+      // derives the multipart filename from the stream's path.
+      apiOpts.file = fs.createReadStream(file_path);
+      apiOpts.resource_subtype = resource_subtype || 'asana';
+    } else {
+      apiOpts.url = url;
+      apiOpts.resource_subtype = resource_subtype || 'external';
+      // Asana requires a name for external (URL) attachments.
+      apiOpts.name = name || url;
+    }
+
+    if (name) apiOpts.name = name;
+
+    const response = await this.attachments.createAttachmentForObject(apiOpts);
+    return response.data;
+  }
+
+  async getAttachmentsForObject(parent: string, opts: any = {}) {
+    const response = await this.attachments.getAttachmentsForObject(parent, opts);
+    return response.data;
+  }
+
+  async getAttachment(attachmentGid: string, opts: any = {}) {
+    const response = await this.attachments.getAttachment(attachmentGid, opts);
+    return response.data;
+  }
+
+  async deleteAttachment(attachmentGid: string) {
+    const response = await this.attachments.deleteAttachment(attachmentGid);
+    return response.data;
   }
 
   async listWorkspaces(opts: any = {}) {

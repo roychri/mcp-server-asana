@@ -57,6 +57,12 @@ import {
   getStoriesForTaskTool,
   createTaskStoryTool
 } from './tools/story-tools.js';
+import {
+  createAttachmentTool,
+  getAttachmentsForObjectTool,
+  getAttachmentTool,
+  deleteAttachmentTool
+} from './tools/attachment-tools.js';
 
 // List of all available tools
 const all_tools: Tool[] = [
@@ -101,6 +107,10 @@ const all_tools: Tool[] = [
   deleteSectionTool,
   addTaskToSectionTool,
   updateProjectTool,
+  createAttachmentTool,
+  getAttachmentsForObjectTool,
+  getAttachmentTool,
+  deleteAttachmentTool,
 ];
 
 // List of tools that only read Asana state
@@ -122,7 +132,9 @@ const READ_ONLY_TOOLS = [
   'asana_get_tags_for_task',
   'asana_get_tasks_for_tag',
   'asana_get_tags_for_workspace',
-  'asana_get_subtasks'
+  'asana_get_subtasks',
+  'asana_get_attachments_for_object',
+  'asana_get_attachment'
 ];
 
 // Filter tools based on READ_ONLY_MODE
@@ -688,6 +700,38 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
             }
             throw error;
           }
+        }
+
+        case "asana_create_attachment": {
+          const { parent, ...opts } = args;
+          const response = await asanaClient.createAttachment(parent, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_attachments_for_object": {
+          const { parent, ...opts } = args;
+          const response = await asanaClient.getAttachmentsForObject(parent, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_get_attachment": {
+          const { attachment_gid, ...opts } = args;
+          const response = await asanaClient.getAttachment(attachment_gid, opts);
+          return {
+            content: [{ type: "text", text: JSON.stringify(response) }],
+          };
+        }
+
+        case "asana_delete_attachment": {
+          const { attachment_gid } = args;
+          await asanaClient.deleteAttachment(attachment_gid);
+          return {
+            content: [{ type: "text", text: `Successfully deleted attachment ${attachment_gid}` }],
+          };
         }
 
         default:
