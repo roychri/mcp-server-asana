@@ -49,6 +49,6 @@
     "@modelcontextprotocol/sdk": "^1.4.1",
     "asana": "^3.0.12",
     "jsdom": "^27.4.0",
-    "re2": "^1.21.4"
+    "re2": "^1.26.1"
   }
 }
