@@ -278,7 +278,13 @@ export class AsanaClientWrapper {
     return response.data;
   }
 
-  async createTaskStory(taskId: string, text: string | null = null, opts: any = {}, html_text: string | null = null) {
+  async createTaskStory(
+    taskId: string,
+    text: string | null = null,
+    opts: any = {},
+    html_text: string | null = null,
+    parent_comment: string | null = null
+  ) {
     const options = opts.opt_fields ? opts : {};
     const data: any = {};
 
@@ -288,6 +294,10 @@ export class AsanaClientWrapper {
       data.html_text = html_text;
     } else {
       throw new Error("Either text or html_text must be provided");
+    }
+
+    if (parent_comment) {
+      data.parent_comment = parent_comment;
     }
 
     const body = { data };

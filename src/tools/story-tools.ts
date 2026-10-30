@@ -37,6 +37,10 @@ export const createTaskStoryTool: Tool = {
         type: "string",
         description: "HTML-like formatted text for the comment. Required if text is not provided. Does not support ALL HTML tags. Only a subset. The only allowed TAG in the HTML are: <body> <h1> <h2> <ol> <ul> <li> <strong> <em> <u> <s> <code> <pre> <blockquote> <a data-asana-type=\"\" data-asana-gid=\"\"> <hr> <img> <table> <tr> <td>. No other tags are allowed. Use the \\n to create a newline. Do not use \\n after <body>."
       },
+      parent_comment: {
+        type: "string",
+        description: "Optional comment envelope GID to reply to. Use the top-level comment's comment_gid, not its story gid. When omitted, creates a top-level task comment."
+      },
       opt_fields: {
         type: "string",
         description: "Comma-separated list of optional fields to include"

@@ -354,7 +354,7 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
         }
 
         case "asana_create_task_story": {
-          const { task_id, text, html_text, ...opts } = args;
+          const { task_id, text, html_text, parent_comment, ...opts } = args;
 
           // Track if we need to warn about both parameters being provided
           let warning: string | null = null;
@@ -385,7 +385,13 @@ export function tool_handler(asanaClient: AsanaClientWrapper): (request: CallToo
               }
             }
 
-            const response = await asanaClient.createTaskStory(task_id, effectiveText, opts, effectiveHtmlText);
+            const response = await asanaClient.createTaskStory(
+              task_id,
+              effectiveText,
+              opts,
+              effectiveHtmlText,
+              parent_comment
+            );
             const result = warning
               ? { warning, result: response }
               : response;
