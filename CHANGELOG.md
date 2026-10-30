@@ -8,6 +8,11 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- Optional `parent_comment` input on `asana_create_task_story` for creating
+  threaded replies while preserving the existing plain-text and rich-HTML
+  comment paths.
+
 
 ## [1.8.0] - 2026-03-29
 

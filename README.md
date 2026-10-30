@@ -139,8 +139,10 @@ Another example:
     * Create a comment or story on a task
     * Required input:
         * task_id (string): The task ID to add the story to
-        * text (string): The text content of the story/comment
     * Optional input:
+        * text (string): Plain-text content. Required if html_text is not provided
+        * html_text (string): Rich-HTML content. Required if text is not provided
+        * parent_comment (string): Top-level comment envelope GID to reply to; omit for a top-level comment
         * opt_fields (string): Comma-separated list of optional fields to include
     * Returns: Created story information
 12. `asana_add_task_dependencies`
